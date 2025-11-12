@@ -4,27 +4,27 @@ import UniIcon from "../utils/UniIcon";
 
 const Navbar = () => {
     const { user, logout } = useAuth();
-    
+
     return (
-        <Box bg="white" px={6} py={4} borderBottom={"1px solid #e2e8f0"}>
+        <Box bg="white" px={{ base: 3, md: 6 }} py={{ base: 2, md: 4 }} borderBottom={"1px solid #e2e8f0"}>
             <Flex justify="space-between" align="center">
-            <Stack flexDir="row" spacing={2} alignItems={'center'} justifyContent={'center'}>
-            <Box bgColor={'primary.100'} py={2} px={3} borderRadius={'50%'}>
-                        <UniIcon icon={'UilGraduationCap'} size={8} color='primary.500' cursor={'pointer'} />
+                <Stack flexDir="row" spacing={{ base: 1, md: 2 }} alignItems={'center'} justifyContent={'center'}>
+                    <Box bgColor={'primary.100'} py={{ base: 1, md: 2 }} px={{ base: 2, md: 3 }} borderRadius={'50%'}>
+                        <UniIcon icon={'UilGraduationCap'} size={{ base: 6, md: 8 }} color='primary.500' cursor={'pointer'} />
                     </Box>
-            <Text fontSize="xl" fontWeight="bold">EduTest</Text>
-            </Stack>
-                <Stack flexDir="row" spacing={6} alignItems={'center'} justifyContent={'center'}>
+                    <Text fontSize={{ base: 'lg', md: '2xl' }} fontWeight="bold">EduTest</Text>
+                </Stack>
+                <Stack flexDir="row" spacing={{ base: 2, md: 4 }} alignItems={'center'} justifyContent={'center'}>
                     {
                         user && user.name && user.last_name && (
-                            <Text fontWeight={"bold"}>{`${user.name} ${user.last_name}`}</Text>
+                            <Text fontWeight={"bold"} fontSize={{ base: 'sm', md: 'md' }}>{`${user.name} ${user.last_name}`}</Text>
                         )
                     }
-                <Button minH={12} onClick={logout} leftIcon={<UniIcon icon="UilSignOutAlt" />} colorScheme="teal" variant="gray" size="sm">
-                    Salir
-                </Button>
+                    <Button onClick={logout} leftIcon={<UniIcon icon="UilSignOutAlt" />} colorScheme="teal" variant="gray" size={{ base: 'sm', md: 'md' }}>
+                        Salir
+                    </Button>
                 </Stack>
-                
+
             </Flex>
         </Box>
     );

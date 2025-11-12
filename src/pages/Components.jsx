@@ -20,11 +20,11 @@ const Components = () => {
 
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Competencias</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Listado de todas las competencias creadas</Text>
+            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Componentes</Heading>
+            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las componentes creadas</Text>
             {
                 (!dataComponents || dataComponents.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado competencia</Text>
+                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado componentes</Text>
                 )
             }
             {

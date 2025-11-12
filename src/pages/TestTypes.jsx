@@ -13,9 +13,7 @@ const TestTypes = () => {
     const [description, setDescription] = useState('');
     const [registerSelected, setRegisterSelected] = useState(null);
     const [refreshData, setRefreshData] = useState(false);
-    const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure()
     const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
-    const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure()
 
     useEffect(() => {
         fetchData({
@@ -32,27 +30,8 @@ const TestTypes = () => {
     }
 
     const handleClose = () => {
-        onCloseCreate();
         onCloseUpdate();
-        onCloseDelete();
         cleanForm();
-    }
-
-    const handleSave = async () => {
-        try {
-            await fetchData({
-                url: '/testtypes',
-                method: 'POST',
-                body: {
-                    name,
-                    description
-                }
-            });
-            handleClose();
-            cleanForm();
-        } catch (error) {
-            console.error('Error al crear el usuario:', error);
-        }
     }
 
     const onSelectItem = (data) => {
@@ -82,37 +61,19 @@ const TestTypes = () => {
         }
     }
 
-    const onOpenDeleteData = () => {
-        onOpenDelete();
-    }
-
-    const handleDelete = async () => {
-        try {
-            await fetchData({
-                url: `/testtypes/${registerSelected.id}`,
-                method: 'DELETE',
-            });
-            handleClose();
-            cleanForm();
-        } catch (error) {
-            console.error('Error al eliminar el usuario:', error);
-        }
-    }
-
     if (loading) return <Loading />;
     if (error) return <Text color={'red.500'}>Error: {error}</Text>;
 
 
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Tipos</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Listado de todos los tipos de test del sistema</Text>
-            <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w={'100%'}>
-                <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nuevo tipo</Button>
+            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Tipos</Heading>
+            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos los tipos de test del sistema</Text>
+            <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
             </Stack>
             {
                 (!data || data.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado tipos</Text>
+                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tipos</Text>
                 )
             }
             {
@@ -145,19 +106,6 @@ const TestTypes = () => {
                     </TableContainer>
                 )
             }
-            <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nuevo test'}>
-                <Stack w='100%' gap={2}>
-                    <Stack>
-                        <InputText text={'Nombre'} placeholder={'Nombre'} type={'text'} value={name} setValue={setName} />
-                        <InputText text={'Descripción'} placeholder={'Descripción'} type={'text'} value={description} setValue={setDescription} />
-                        <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w='100%'>
-                            <Button variant={"gray"} size="sm" onClick={handleClose}> Cancelar</Button>
-                            <Button variant={"solid"} size="sm" onClick={handleSave}> Crear</Button>
-                        </Stack>
-                    </Stack>
-                </Stack>
-            </ModalComponent>
-
             <ModalComponent isOpen={isOpenUpdate} onClose={handleClose} title={'Actualizar nuevo test'}>
                 <Stack w='100%' gap={2}>
                     <Stack>
@@ -170,8 +118,6 @@ const TestTypes = () => {
                     </Stack>
                 </Stack>
             </ModalComponent>
-            <DeleteModal isOpen={isOpenDelete} onClose={handleClose} item={registerSelected?.name || ''} onClick={handleDelete} />
-
         </Stack>
     )
 }

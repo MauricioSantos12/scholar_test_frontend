@@ -162,21 +162,21 @@ const TestId = () => {
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
             {
                 dataTests && dataTests.length > 0 && (
-                    <Breadcrumb spacing='8px' separator={<UniIcon icon='UilChevronRight' color='gray.500' />}>
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => null}>{dataTests.find(test => test.id === parseInt(id))?.name} </BreadcrumbLink> </BreadcrumbItem>
+                    <Breadcrumb spacing='4px' fontSize={{ base: 'xs', md: 'md' }} separator={<UniIcon icon='UilChevronRight' color='gray.500' />}>
+                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation('/tests')}>{dataTests.find(test => test.id === parseInt(id))?.name} </BreadcrumbLink> </BreadcrumbItem>
                         <BreadcrumbItem></BreadcrumbItem>
                     </Breadcrumb>
                 )
             }
 
-            <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Áreas</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Listado de todas las áreas creadas</Text>
-            <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w={'100%'}>
+            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Áreas</Heading>
+            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las áreas creadas</Text>
+            <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva área</Button>
             </Stack>
             {
                 (!orderedData || orderedData.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado áreas</Text>
+                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado áreas</Text>
                 )
             }
             {

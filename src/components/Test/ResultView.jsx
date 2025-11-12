@@ -57,25 +57,25 @@ const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setCo
   if (errorTests || errorRecommendations) return <Text color={'red.500'}>Error: {errorTests || errorRecommendations}</Text>;
   if (loadingTests || loadingRecommendations || !completeTest) return <Loading />
   return (
-    <Stack w='100%' gap={4} >
-      <Stack my={4} w={'100%'} gap={4}>
+    <Stack w='100%' gap={{ base: 2, md: 4 }} >
+      <Stack my={{ base: 1, md: 4 }} w={'100%'} gap={{ base: 2, md: 4 }}>
         <Stack w='100%' justifyContent={'center'} alignItems={'center'}>
-          <UniIcon icon={'UilCheckCircle'} color='green.400' size={{ base: '3rem', md: '6rem' }} bgColor={'green.100'} borderRadius={'50%'} p={4} />
+          <UniIcon icon={'UilCheckCircle'} color='green.400' size={{ base: '4rem', md: '6rem' }} bgColor={'green.100'} borderRadius={'50%'} p={4} />
         </Stack>
-        <Heading color={'dark_text'} textAlign={'center'} fontWeight={'bold'} fontSize={{ base: '1.2rem', md: '2rem' }}>¡Test completado!</Heading>
+        <Heading color={'dark_text'} textAlign={'center'} fontWeight={'bold'} fontSize={{ base: '0.9rem', md: '1.5rem' }}>¡Test completado!</Heading>
         <Text textAlign={'center'}>{`Has finalizado el test ${completeTest.name}`}</Text>
       </Stack>
       <Stack w={'100%'} gap={2}>
       </Stack>
       <Stack w={'100%'} gap={2}>
-        <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }} textAlign={'center'} dangerouslySetInnerHTML={{ __html: `¡Felicidades <b>${user.name}</b>, has completado el test! 🎉` }} />
-        <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }}>{`A continuación podrás ver un resumen de tus resultados generales, junto con el desempeño obtenido en cada área y en los diferentes componentes evaluados.`}</Text>
-        <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }}>{`Estos resultados te permitirán identificar tus fortalezas y reconocer las áreas en las que puedes seguir mejorando.`}</Text>
+        <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'center'} dangerouslySetInnerHTML={{ __html: `¡Felicidades <b>${user.name}</b>, has completado el test! 🎉` }} />
+        <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'}>{`A continuación podrás ver un resumen de tus resultados generales, junto con el desempeño obtenido en cada área y en los diferentes componentes evaluados.`}</Text>
+        <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'} >{`Estos resultados te permitirán identificar tus fortalezas y reconocer las áreas en las que puedes seguir mejorando.`}</Text>
       </Stack>
       <Text w='100%' fontWeight={'bold'} textAlign={'center'} color={'primary.500'} fontSize={{ base: '1.5rem', md: '3rem' }}>{data?.totalScore}%</Text>
-      <Text textAlign={'center'} fontSize={'lg'}>{`Preguntas acertadas ${data?.totalCorrect} / ${data?.totalQuestions}`}</Text>
+      <Text textAlign={'center'} >{`Preguntas acertadas ${data?.totalCorrect} / ${data?.totalQuestions}`}</Text>
       <Divider mt={8} />
-      <Text color={'dark_text'} fontSize={'lg'} fontWeight={'bold'}>Resultados por áreas</Text>
+      <Text color={'dark_text'} fontWeight={'bold'}>Resultados por áreas</Text>
       {
         completeTest && completeTest.areas && completeTest.areas.length > 0 && data && dataRecommendations && (
           <TableContainer w={'100%'}>
@@ -112,7 +112,7 @@ const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setCo
           </TableContainer>
         )
       }
-      <Text color={'dark_text'} fontSize={'lg'} fontWeight={'bold'}>Resultados por componentes</Text>
+      <Text color={'dark_text'} fontWeight={'bold'}>Resultados por componentes</Text>
       {
         completeTest && completeTest.areas.length > 0 && data && (
           completeTest.areas.map((area) => {
@@ -153,7 +153,7 @@ const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setCo
 
       }
 
-      <Button w={'100%'} variant={'solid'} onClick={() => { handleFinishTest() }} leftIcon={<UniIcon icon={'UilArrowCircleLeft'} />} >Regresar</Button>
+      <Button w={'100%'} variant={'solid'} mt={{ base: 3, md: 5 }} onClick={() => { handleFinishTest() }} leftIcon={<UniIcon icon={'UilArrowCircleLeft'} />} >Regresar</Button>
     </Stack>
   )
 }

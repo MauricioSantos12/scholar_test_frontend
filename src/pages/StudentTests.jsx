@@ -32,8 +32,8 @@ const StudentTests = () => {
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
             <Container maxW={'container.xl'} w='100%' h='auto' p={8} gap={4} display={'flex'} flexDir={'column'}>
                 <Stack my={4} h={'auto'}>
-                    <Heading color={'dark_text'} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '2rem' }}>Tests Disponibles</Heading>
-                    <Text color={'text'} fontSize={{ base: '0.9rem', md: '1.3rem' }}>Selecciona un test para comenzar</Text>
+                    <Heading color={'dark_text'} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '1.5rem' }}>Tests Disponibles</Heading>
+                    <Text color={'text'} fontSize={{ base: 'md', md: 'xl' }}>Selecciona un test para comenzar</Text>
                 </Stack>
                 <Stack direction='row' flexWrap='wrap' gap={4} justifyContent={'flex-start'} alignItems={'center'}>
                     {
@@ -50,7 +50,7 @@ const StudentTests = () => {
                                             <Stack flexDir={'row'} w='100%' alignItems={'flex-start'} justifyContent={'space-between'}>
                                                 <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'}>
                                                     <Text fontWeight={'semibold'} fontSize={'1.7rem'} color={'#344256'}>{item.name}</Text>
-                                                    <Text color={'#65758b'} fontSize={'1.2rem'} fontWeight={'normal'}>{item.description}</Text>
+                                                    <Text color={'#65758b'} fontSize={'0.9rem'} fontWeight={'normal'}>{item.description}</Text>
                                                 </Stack>
                                                 <Text color={style.color} bgColor={style.bgColor} py={1} px={2} borderRadius={8} border={'1px solid'} borderColor={style.borderColor} >{dataTestTypes && dataTestTypes.length > 0 ? dataTestTypes.find((type) => type.id === item.type_id)?.name : item.type_id}</Text>
                                             </Stack>

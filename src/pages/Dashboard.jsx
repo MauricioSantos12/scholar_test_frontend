@@ -10,6 +10,7 @@ const Dashboard = () => {
     const { data: dataComponents, loading: loadingComponents, error: errorComponents, fetchData: fetchComponents } = UseFetch()
     const { data: dataQuestions, loading: loadingQuestions, error: errorQuestions, fetchData: fetchQuestions } = UseFetch()
     const { data: dataUsers, loading: loadingUsers, error: errorUsers, fetchData: fetchUsers } = UseFetch()
+    const { data: dataResults, loading: loadingResults, error: errorResults, fetchData: fetchResults } = UseFetch()
     useEffect(() => {
         fetchTests({
             url: '/tests',
@@ -31,10 +32,14 @@ const Dashboard = () => {
             url: '/users',
             method: 'GET',
         });
+        fetchResults({
+            url: '/results',
+            method: 'GET',
+        })
 
     }, [fetchTests, fetchAreas, fetchComponents, fetchQuestions, fetchUsers]);
-    if (loadingTests || loadingAreas || loadingComponents || loadingQuestions || loadingUsers) return <Loading />;
-    if (errorTests || errorAreas || errorComponents || errorQuestions || errorUsers) return <Text color={'red.500'}>Error: {errorTests || errorAreas || errorComponents || errorQuestions || errorUsers}</Text>;
+    if (loadingTests || loadingAreas || loadingComponents || loadingQuestions || loadingUsers || loadingResults) return <Loading />;
+    if (errorTests || errorAreas || errorComponents || errorQuestions || errorUsers || errorResults) return <Text color={'red.500'}>Error: {errorTests || errorAreas || errorComponents || errorQuestions || errorUsers || errorResults}</Text>;
     const dataCards = [
         {
             title: 'Tests Creados',
@@ -63,6 +68,13 @@ const Dashboard = () => {
             value: dataQuestions?.length || 0,
             bgColor: 'gray.50',
             colorIcon: 'gray.500'
+        },
+        {
+            title: 'Test completados',
+            icon: 'UilCloudCheck',
+            value: dataResults?.length || 0,
+            bgColor: 'green.50',
+            colorIcon: 'green.500'
         },
         {
             title: 'Usuarios',

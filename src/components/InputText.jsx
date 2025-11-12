@@ -5,7 +5,7 @@ import React from 'react'
 
 const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
     return (
-        <Stack dir='column' justifyContent={'center'} alignItems={'flex-start'} gap={4}>
+        <Stack dir='column' justifyContent={'center'} alignItems={'flex-start'} gap={2} w='100%'>
             <Text color={'dark_text'} fontWeight={'bold'} fontSize={'lg'}>{text}</Text>
             {
                 type === 'number' && (
@@ -26,7 +26,7 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
                 )
             }
             {
-                type === 'text' && (
+                (type === 'text' || type === 'email' || type == 'password') && (
                     <Input
                         value={value}
                         variant='outline'
@@ -74,7 +74,7 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
                     />
                 )
             }
-        </Stack>
+        </Stack >
     )
 }
 

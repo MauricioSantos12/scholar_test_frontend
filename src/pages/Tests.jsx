@@ -79,7 +79,7 @@ const Tests = () => {
       handleClose();
       cleanForm();
     } catch (error) {
-      console.error('Error al crear área:', error);
+      console.error('Error al crear test:', error);
     }
   }
 
@@ -144,14 +144,14 @@ const Tests = () => {
 
   return (
     <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-      <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Tets Existentes</Heading>
-      <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Gestiona todos los tests creados</Text>
-      <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w={'100%'}>
+      <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Tets Existentes</Heading>
+      <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Gestiona todos los tests creados</Text>
+      <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
         <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nuevo test</Button>
       </Stack>
       {
         (!orderedData || orderedData.length === 0) && (
-          <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado tests</Text>
+          <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tests</Text>
         )
       }
       {
@@ -189,11 +189,11 @@ const Tests = () => {
           </TableContainer>
         )
       }
-      <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nueva área'}>
+      <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nuevo test'}>
         <Stack w='100%' gap={2}>
           <Stack>
-            <InputText text={'Nombre'} placeholder={'Nombre del área'} type={'text'} value={name} setValue={setName} />
-            <InputText text={'Descripcion'} placeholder={'Descripcion del área'} type={'text'} value={description} setValue={setDescription} />
+            <InputText text={'Nombre'} placeholder={'Nombre del test'} type={'text'} value={name} setValue={setName} />
+            <InputText text={'Descripcion'} placeholder={'Descripcion del test'} type={'text'} value={description} setValue={setDescription} />
             <InputSelect text={'Tipo'} value={typeTest} setValue={setTypeTest} options={dataTypeTests} />
             {
               errorModal && (
@@ -208,11 +208,11 @@ const Tests = () => {
         </Stack>
       </ModalComponent>
 
-      <ModalComponent isOpen={isOpenUpdate} onClose={handleClose} title={'Actualizar área'}>
+      <ModalComponent isOpen={isOpenUpdate} onClose={handleClose} title={'Actualizar test'}>
         <Stack w='100%' gap={2}>
           <Stack>
-            <InputText text={'Nombre'} placeholder={'Nombre del área'} type={'text'} value={name} setValue={setName} />
-            <InputText text={'Descripcion'} placeholder={'Descripcion del área'} type={'text'} value={description} setValue={setDescription} />
+            <InputText text={'Nombre'} placeholder={'Nombre del test'} type={'text'} value={name} setValue={setName} />
+            <InputText text={'Descripcion'} placeholder={'Descripcion del test'} type={'text'} value={description} setValue={setDescription} />
             <InputSelect text={'Tipo'} value={typeTest} setValue={setTypeTest} options={dataTypeTests} />
             {
               errorModal && (

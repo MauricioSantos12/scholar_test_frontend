@@ -123,14 +123,14 @@ const Recommendations = () => {
 
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Observaciones por área</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Listado de todos las observaciones</Text>
-            <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w={'100%'}>
+            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Observaciones por área</Heading>
+            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos las observaciones</Text>
+            <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva observación</Button>
             </Stack>
             {
                 (!data || data.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado observaciones</Text>
+                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado observaciones</Text>
                 )
             }
             {

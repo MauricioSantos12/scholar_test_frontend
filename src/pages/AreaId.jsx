@@ -150,21 +150,21 @@ const AreaId = () => {
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
             {
                 dataTests && dataTests.length > 0 && dataAreas && dataAreas.length > 0 && (
-                    <Breadcrumb spacing='8px' separator={<UniIcon size={4} icon='UilAngleRightB' color='gray.500' />}>
+                    <Breadcrumb spacing='4px' fontSize={{ base: 'xs', md: 'md' }} >
                         <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}`)}>{dataTests.find(test => test.id === parseInt(testId))?.name} </BreadcrumbLink> </BreadcrumbItem>
                         <BreadcrumbItem><BreadcrumbLink onClick={() => null}>{dataAreas.find(area => area.id === parseInt(areaId))?.name} </BreadcrumbLink> </BreadcrumbItem>
                     </Breadcrumb>
                 )
             }
 
-            <Heading color={'dark_text'} fontSize={{ base: '1.5rem', md: '2rem' }}>Componentes</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>Listado de todas las componentes creadas</Text>
-            <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w={'100%'}>
-                <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva competencia</Button>
+            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Componentes</Heading>
+            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las componentes creadas</Text>
+            <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
+                <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva componente</Button>
             </Stack>
             {
                 (!orderedData || orderedData.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '1.2rem' }}>No se han creado componentes</Text>
+                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado componentes</Text>
                 )
             }
             {

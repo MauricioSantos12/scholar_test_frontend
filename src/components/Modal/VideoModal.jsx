@@ -1,5 +1,6 @@
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack } from '@chakra-ui/react'
 import React from 'react'
+import RenderVideo from '../RenderVideo'
 
 const VideoModal = ({ isOpen, onClose, videoUrl }) => {
     return (

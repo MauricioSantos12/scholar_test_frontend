@@ -33,6 +33,10 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
             }
             setSelectedAnswer(null);
         }
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
 
     }
 
@@ -42,13 +46,13 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
 
     return (
         <Stack w='100%' gap={4} >
-            <Breadcrumb spacing='8px' separator={<UniIcon size={5} icon='UilAngleRightB' color='gray.500' />}>
+            <Breadcrumb spacing='4px' fontSize={{ base: 'xs', md: 'md' }} >
                 <BreadcrumbItem><BreadcrumbLink>{completeTest?.name} </BreadcrumbLink> </BreadcrumbItem>
                 <BreadcrumbItem><BreadcrumbLink>{areas?.name} </BreadcrumbLink> </BreadcrumbItem>
             </Breadcrumb>
             <Stack my={4} w={'100%'} gap={2}>
                 <Heading color={'dark_text'} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}</Heading>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
                 {
                     question?.image_url && (
                         <Image objectFit={'contain'} src={question?.image_url} alt={`Imagen de la pregunta ${questionStep + 1}`} w={{ base: '100%', md: '70%' }} margin={'0 auto'} h={'auto'} minH={'300px'} />
@@ -59,7 +63,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                         <RenderVideo videoUrl={question?.video_url} />
                     )
                 }
-                <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
             </Stack>
             <Stack w={'100%'} gap={4} flexDir={'row'} flexWrap={'wrap'} justify={'space-between'} alignItems={'center'}>
                 {
@@ -98,6 +102,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                                     borderColor={'primary.600'}
                                                     borderRadius={8}
                                                     p={2}
+                                                    h={'fit-content'}
                                                     color={'primary.600'}
                                                     cursor={'pointer'}
                                                     _hover={{
@@ -105,7 +110,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                                         color: 'white',
                                                         transition: 'all 0.4s ease-in-out'
                                                     }}
-                                                ><UniIcon icon='UilEye' mr={2} /></Text>
+                                                ><UniIcon icon='UilEye' /></Text>
                                             )
                                         }
                                     </Stack>

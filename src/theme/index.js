@@ -39,7 +39,7 @@ const theme = extendTheme({
     Button: {
       variants: {
         solid: {
-          minH: 14,
+          minH: 10,
           bg: 'primary.500',
           color: 'white',
           transition: 'all 0.4s ease-in-out',
@@ -48,7 +48,7 @@ const theme = extendTheme({
           },
         },
         selectedAnswer: {
-          minH: 14,
+          minH: 10,
           bg: 'primary.300',
           color: 'white',
           transition: 'all 0.4s ease-in-out',
@@ -57,7 +57,7 @@ const theme = extendTheme({
           },
         },
         white: {
-          minH: 14,
+          minH: 10,
           bg: 'white',
           color: 'text',
           transition: 'all 0.4s ease-in-out',
@@ -67,7 +67,7 @@ const theme = extendTheme({
           },
         },
         gray: {
-          minH: 14,
+          minH: 10,
           bg: '#f8fafc',
           border: '1px solid',
           borderColor: '#e2e8f0',
@@ -79,7 +79,7 @@ const theme = extendTheme({
           },
         },
         green: {
-          minH: 14,
+          minH: 10,
           bg: 'green.500',
           color: 'white',
           transition: 'all 0.4s ease-in-out',
@@ -88,7 +88,7 @@ const theme = extendTheme({
           },
         },
         red: {
-          minH: 14,
+          minH: 10,
           bg: 'red.500',
           color: 'white',
           transition: 'all 0.4s ease-in-out',
@@ -97,7 +97,7 @@ const theme = extendTheme({
           },
         },
         darkGray: {
-          minH: 14,
+          minH: 10,
           bg: 'secondary.500',
           color: 'secondary.800',
           transition: 'all 0.4s ease-in-out',
