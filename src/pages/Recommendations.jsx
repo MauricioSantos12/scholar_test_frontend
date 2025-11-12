@@ -152,7 +152,7 @@ const Recommendations = () => {
                                         <Td textAlign={'center'}>{dataAreas && dataAreas.find((area) => area.id === data.area_id) && dataAreas.find((area) => area.id === data.area_id).name}</Td>
                                         <Td textAlign={'center'}>{data.min_score}</Td>
                                         <Td textAlign={'center'}>{data.max_score}</Td>
-                                        <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: data?.text }} />
+                                        <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: data.text && data.text.length > 150 ? data.text.substring(0, 200) + '...' : data.text }} />
                                         <Td textAlign={'center'}>
                                             <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
                                                 <UniIcon icon={'UilEdit'} size={4} onClick={() => { onSelectItem(data); onOpenUpdateData() }} cursor={'pointer'} _hover={{ color: 'primary.500', transition: 'all 0.2s ease-in-out' }} />

@@ -16,11 +16,19 @@ const Login = () => {
             if (!data) {
                 setError('Credenciales incorrectas')
             }
-            if (data && data?.user && data?.user?.role === 'admin') {
-                window.location.href = '/dashboard';
-            } else {
-                window.location.href = '/studenttests';
-
+            console.log({ data })
+            if (data && data?.user) {
+                const { role } = data.user;
+                switch (role) {
+                    case 'admin':
+                        window.location.href = '/dashboard';
+                        break;
+                    case 'student':
+                        window.location.href = '/studenttests';
+                        break;
+                    default:
+                        setError('Credenciales incorrectas');
+                }
             }
 
         } else {
@@ -28,7 +36,7 @@ const Login = () => {
         }
     }
     return (
-        <Box minH="100vh" display="flex" flexDirection="column" justifyContent={'center'} alignItems={'center'} bgColor={'#f8fafc'}>
+        <Box minH="100vh" display="flex" flexDirection="column" justifyContent={'center'} alignItems={'center'} bgColor={'#f8fafc'} onKeyDown={(e) => e.key === 'Enter' && handleLogin()}>
             <Stack h='auto' w={'100%'} p={8} maxW={{ base: '90%', md: '600px' }} m='0 auto' bgColor='white' borderRadius={8} boxShadow='lg' gap={2} border={'1px solid'} borderColor={'secondary.500'}>
                 <Stack dir='column' justifyContent={'center'} alignItems={'center'}>
                     <Box bgColor={'primary.100'} py={4} px={5} borderRadius={'50%'}>

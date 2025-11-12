@@ -2,13 +2,15 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Divider, Heading, I
 import React, { useState } from 'react';
 import UniIcon from '../../utils/UniIcon.jsx'
 import VideoModal from '../Modal/VideoModal.jsx';
-const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuestionStep, setAreaStep, setComponentStep, setAnswersByUser, typeTest }) => {
+import RenderVideo from '../RenderVideo.jsx';
+const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuestionStep, setAreaStep, setComponentStep, setAnswersByUser, typeTest, setCurrentQuestion, currentQuestion }) => {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [videoSelected, setVideoSelected] = useState(null);
     const [sentAnswer, setSentAnswer] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const areas = completeTest.areas[areaStep];
     const question = areas.questionsByArea[questionStep];
+    console.log({ question })
     const handleNext = () => {
         if (!sentAnswer && typeTest?.id == 2 && selectedAnswer?.explanation) {
             setSentAnswer(true);
@@ -17,6 +19,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
             setAnswersByUser(prevAnswers => [...prevAnswers, { question_id: question.id, answer_id: selectedAnswer?.id }]);
             if (questionStep == areas.questionsByArea.length - 1) {
                 if (areaStep == completeTest.areas.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
                     setStep('resultView');
                 } else {
                     setStep('areaView');
@@ -26,6 +29,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                 }
             } else {
                 setQuestionStep(questionStep + 1);
+                setCurrentQuestion(currentQuestion + 1);
             }
             setSelectedAnswer(null);
         }
@@ -48,6 +52,11 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                 {
                     question?.image_url && (
                         <Image objectFit={'contain'} src={question?.image_url} alt={`Imagen de la pregunta ${questionStep + 1}`} w={{ base: '100%', md: '70%' }} margin={'0 auto'} h={'auto'} minH={'300px'} />
+                    )
+                }
+                {
+                    question?.video_url && (
+                        <RenderVideo videoUrl={question?.video_url} />
                     )
                 }
                 <Text color={'text'} fontSize={{ base: '1rem', md: '1.2rem' }} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
@@ -96,7 +105,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                                         color: 'white',
                                                         transition: 'all 0.4s ease-in-out'
                                                     }}
-                                                ><UniIcon icon='UilPlayCircle' mr={2} /> Ver video</Text>
+                                                ><UniIcon icon='UilEye' mr={2} /></Text>
                                             )
                                         }
                                     </Stack>

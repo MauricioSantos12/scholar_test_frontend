@@ -6,26 +6,43 @@ import UniIcon from '../../utils/UniIcon';
 import UseFetch from '../../utils/UseFetch';
 import Loading from '../Loading';
 
-const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setComponentStep, setAnswersByUser, answersByUser }) => {
+const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setComponentStep, setAnswersByUser, answersByUser, testResult, intervalId,
+  setIntervalId }) => {
   const { data, loading: loadingTests, error: errorTests, fetchData: fetchTests } = UseFetch()
   const { data: dataRecommendations, loading: loadingRecommendations, error: errorRecommendations, fetchData: fetchRecommendations } = UseFetch()
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchTests({
-      url: '/results',
-      method: 'POST',
-      body: {
-        test_id: completeTest.id,
-        user_id: user.id,
-        answers: answersByUser
+    const fetchData = async () => {
+      const finishedResult = await fetchTests({
+        url: `/tests/${completeTest.id}/result/${testResult.id}/finish`,
+        method: 'POST',
+      })
+      if (finishedResult) {
+        fetchTests({
+          url: '/results',
+          method: 'POST',
+          body: {
+            test_id: completeTest.id,
+            user_id: user.id,
+            answers: answersByUser,
+            test_result_id: testResult.id
+          }
+        });
+
+        await fetchRecommendations({
+          url: '/recommendations',
+          method: 'GET',
+        })
       }
-    });
-    fetchRecommendations({
-      url: '/recommendations',
-      method: 'GET',
-    })
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null);
+      }
+
+    }
+    fetchData();
   }, [])
 
   const handleFinishTest = () => {

@@ -45,16 +45,27 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
                         apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                         init={{
                             setup: (editor) => {
-                                editor.on('OpenWindow', (e) => {
-                                    e.container.style.zIndex = 200000;
+                                editor.on('OpenDialog', (e) => {
+                                    console.log({ e })
+                                    const dialogs = document.querySelectorAll('.tox-dialog');
+                                    console.log({ dialogs })
+                                    dialogs.forEach((dialog) => {
+                                        dialog.style.zIndex = 200000;
+                                    });
                                 });
                             },
                             height: 350,
                             width: '100%',
                             menubar: false,
-                            toolbar1: 'undo redo | bold italic | superscript | removeformat | alignleft aligncenter alignright',
-                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                            toolbar1: 'undo redo | bold italic underline | subscript superscript | removeformat | alignleft aligncenter alignright alignjustify',
+                            plugins: ['charmap', 'lists'],
+                            content_style:
+                                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                             uploadcare_public_key: '908ab7f173b03a6059ee',
+                            skin: 'oxide',
+                            content_css: 'default',
+                            fixed_toolbar_container: false,
+                            z_index: 200001,
                         }}
                         onEditorChange={(e) => setValue(e)}
                         // initialValue={value}

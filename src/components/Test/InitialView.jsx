@@ -1,7 +1,22 @@
 import { Button, Divider, Heading, ListItem, Stack, Text, UnorderedList } from '@chakra-ui/react'
 import React from 'react'
 
-const InitialView = ({ completeTest, setStep }) => {
+const InitialView = ({ completeTest, setStep, fetchTests, user, setTestResult, setStartTime }) => {
+    const handleStart = async () => {
+        setStep('areaView');
+        const result = await fetchTests({
+            url: `/tests/${completeTest.id}/start`,
+            method: 'POST',
+            body: {
+                userId: user.id
+            }
+        })
+        if (result) {
+            setTestResult(result);
+            setStartTime(new Date(result?.start_time));
+        }
+    }
+
     return (
         <Stack w='100%' gap={4} >
             <Stack my={4} w={'100%'} gap={2}>
@@ -38,7 +53,7 @@ const InitialView = ({ completeTest, setStep }) => {
                     <ListItem>Una vez que finalices todas las áreas, podrás ver tus resultados generales y por competencia.</ListItem>
                 </UnorderedList>
             </Stack>
-            <Button w={'100%'} variant={'solid'} onClick={() => setStep('areaView')}>Comenzar prueba</Button>
+            <Button w={'100%'} variant={'solid'} onClick={() => handleStart()}>Comenzar prueba</Button>
         </Stack>
     )
 }

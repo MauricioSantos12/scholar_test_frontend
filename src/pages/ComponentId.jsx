@@ -19,6 +19,7 @@ const ComponentId = () => {
     const [firstText, setFirstText] = useState('');
     const [secondText, setSecondText] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const [videoUrl, setVideoUrl] = useState('');
     const [registerSelected, setRegisterSelected] = useState(null);
     const [position, setPosition] = useState('');
     const [refreshData, setRefreshData] = useState(false);
@@ -55,7 +56,8 @@ const ComponentId = () => {
         setRegisterSelected(null);
         setPosition('');
         setErroModal('');
-        setImageUrl('')
+        setImageUrl('');
+        setVideoUrl('');
         setRefreshData(!refreshData);
     }
 
@@ -90,7 +92,8 @@ const ComponentId = () => {
                     second_text: secondText || ' ',
                     position: parseInt(position),
                     component_id: parseInt(componentId),
-                    image_url: imageUrl
+                    image_url: imageUrl,
+                    video_url: videoUrl
                 }
             });
             handleClose();
@@ -104,6 +107,7 @@ const ComponentId = () => {
         setFirstText(data.first_text);
         setSecondText(data.second_text);
         setImageUrl(data.image_url);
+        setVideoUrl(data.video_url);
         setPosition(parseInt(data.position));
         setRegisterSelected(data);
     }
@@ -127,7 +131,8 @@ const ComponentId = () => {
                     second_text: secondText || ' ',
                     position: parseInt(position),
                     component_id: parseInt(componentId),
-                    image_url: imageUrl
+                    image_url: imageUrl,
+                    video_url: videoUrl
                 }
             });
         } catch (error) {
@@ -199,14 +204,14 @@ const ComponentId = () => {
                                 {orderedData.map((dt, i) => {
                                     return (
                                         <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
-                                            <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.first_text }} />
-                                            <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.second_text }} />
+                                            <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.first_text && dt.first_text.length > 100 ? `${dt.first_text.substring(0, 100)}...` : dt.first_text }} />
+                                            <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.second_text && dt.second_text.length > 100 ? `${dt.second_text.substring(0, 100)}...` : dt.second_text }} />
                                             <Td textAlign={'center'}>{dt.position}</Td>
                                             <Td textAlign={'center'}>
                                                 <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
+                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${testId}/area/${areaId}/component/${componentId}/question/${dt.id}`) }}  >Configurar</Button>
                                                     <Button rightIcon={<UniIcon icon={'UilPen'} size={6} />} size={'sm'} variant='green' minH={8} onClick={() => { onSelectItem(dt); onOpenUpdateData() }}> Editar </Button>
                                                     <Button rightIcon={<UniIcon icon={'UilTrash'} size={6} />} size={'sm'} variant='red' minH={8} onClick={() => { onSelectItem(dt); onOpenDeleteData() }}  > Eliminar</Button>
-                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${testId}/area/${areaId}/component/${componentId}/question/${dt.id}`) }}  > Ver respuestas</Button>
                                                 </Stack>
                                             </Td>
                                         </Tr>
@@ -217,13 +222,22 @@ const ComponentId = () => {
                     </TableContainer>
                 )
             }
+            <style>
+                {
+                    `
+                        .tox .tox-dialog {
+                            z-index: 200000 !important;
+                            }`
+                }
+            </style>
             <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nueva pregunta'}>
                 <Stack w='100%' gap={2}>
                     <Stack>
                         <InputText text={'Texto pregunta'} placeholder={'Texto pregunta'} type={'richtext'} value={firstText} setValue={setFirstText} />
                         <InputText text={'Texto alternativo'} placeholder={'Texto alternativo'} type={'richtext'} value={secondText} setValue={setSecondText} />
-                        <InputText text={'Posición en el componente'} placeholder={'Posición'} type={'number'} value={position} setValue={setPosition} />
                         <InputText text={'Imagen URL'} placeholder={'https://...'} type={'text'} value={imageUrl} setValue={setImageUrl} />
+                        <InputText text={'Video explicativo'} placeholder={'https://...'} type={'text'} value={videoUrl} setValue={setVideoUrl} />
+                        <InputText text={'Posición en el componente'} placeholder={'Posición'} type={'number'} value={position} setValue={setPosition} />
                         {
                             errorModal && (
                                 <Text color={'red.500'}>{errorModal}</Text>
@@ -243,8 +257,8 @@ const ComponentId = () => {
                         <InputText text={'Texto pregunta'} placeholder={'Texto pregunta'} type={'richtext'} value={firstText} setValue={setFirstText} />
                         <InputText text={'Texto alternativo'} placeholder={'Texto alternativo'} type={'richtext'} value={secondText} setValue={setSecondText} />
                         <InputText text={'Imagen URL'} placeholder={'https://...'} type={'text'} value={imageUrl} setValue={setImageUrl} />
+                        <InputText text={'Video explicativo'} placeholder={'https://...'} type={'text'} value={videoUrl} setValue={setVideoUrl} />
                         <InputText text={'Posición en el componente'} placeholder={'Posición'} type={'number'} value={position} setValue={setPosition} />
-
                         {
                             errorModal && (
                                 <Text color={'red.500'}>{errorModal}</Text>

@@ -176,9 +176,9 @@ const Tests = () => {
                       <Td textAlign={'center'}>{dataTypeTests && dataTypeTests.length > 0 && dataTypeTests.find(d => d.id === dt.type_id).name}</Td>
                       <Td textAlign={'center'}>
                         <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
+                          <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${dt.id}`) }}  > Configurar</Button>
                           <Button rightIcon={<UniIcon icon={'UilPen'} size={6} />} size={'sm'} variant='green' minH={8} onClick={() => { onSelectItem(dt); onOpenUpdateData() }}> Editar </Button>
                           <Button rightIcon={<UniIcon icon={'UilTrash'} size={6} />} size={'sm'} variant='red' minH={8} onClick={() => { onSelectItem(dt); onOpenDeleteData() }}  > Eliminar</Button>
-                          <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${dt.id}`) }}  > Ver test</Button>
                         </Stack>
                       </Td>
                     </Tr>

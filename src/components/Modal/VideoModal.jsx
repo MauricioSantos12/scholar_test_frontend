@@ -2,8 +2,6 @@ import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHea
 import React from 'react'
 
 const VideoModal = ({ isOpen, onClose, videoUrl }) => {
-    const videoId = videoUrl.split('=')[1]
-    const baseUrl = 'https://www.youtube.com/embed/'
     return (
         <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
             <ModalOverlay />
@@ -11,12 +9,7 @@ const VideoModal = ({ isOpen, onClose, videoUrl }) => {
                 <ModalHeader>{``}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody p={4} gap={4} display={'flex'} flexDir={'column'}>
-                    <Box display={{ base: 'none', md: 'block' }}>
-                        <iframe width="100%" height="520" src={baseUrl + videoId}> </iframe>
-                    </Box>
-                    <Box display={{ base: 'block', md: 'none' }}>
-                        <iframe width="100%" height="300" src={baseUrl + videoId}> </iframe>
-                    </Box>
+                    <RenderVideo videoUrl={videoUrl} />
                     <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'} w='100%'>
                         <Button variant={"gray"} size="sm" w={'100%'} onClick={onClose}> Cerrar</Button>
                     </Stack>

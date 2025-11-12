@@ -189,9 +189,9 @@ const AreaId = () => {
                                             <Td textAlign={'center'}>{dt.position}</Td>
                                             <Td textAlign={'center'}>
                                                 <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
+                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${testId}/area/${areaId}/component/${dt.id}`) }}  > Configurar</Button>
                                                     <Button rightIcon={<UniIcon icon={'UilPen'} size={6} />} size={'sm'} variant='green' minH={8} onClick={() => { onSelectItem(dt); onOpenUpdateData() }}> Editar </Button>
                                                     <Button rightIcon={<UniIcon icon={'UilTrash'} size={6} />} size={'sm'} variant='red' minH={8} onClick={() => { onSelectItem(dt); onOpenDeleteData() }}  > Eliminar</Button>
-                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${testId}/area/${areaId}/component/${dt.id}`) }}  > Ver preguntas</Button>
                                                 </Stack>
                                             </Td>
                                         </Tr>
