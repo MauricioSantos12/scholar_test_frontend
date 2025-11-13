@@ -68,6 +68,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                     <Thead>
                                         <Tr bgColor={'#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                             <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Área</Th>
+                                            <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Puntaje</Th>
                                             <Th textAlign={'center'}>Observación</Th>
                                         </Tr>
                                     </Thead>
@@ -78,7 +79,10 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                             let recommendation = '';
                                             if (recommendationsByArea) {
                                                 recommendationsByArea.forEach(element => {
-                                                    if (element.min_score && element.max_score && resultByArea.score) {
+                                                    if (element.min_score && element.max_score) {
+                                                        console.log(resultByArea.score)
+                                                        console.log(element.min_score)
+                                                        console.log(parseInt(resultByArea.score) >= parseInt(element.min_score))
                                                         if (parseInt(resultByArea.score) >= parseInt(element.min_score) && parseInt(resultByArea.score) <= parseInt(element.max_score)) {
                                                             recommendation = element
                                                         }
@@ -88,8 +92,9 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                             const randomColor = bgColors[i];
                                             return (
                                                 <>
-                                                    <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : randomColor} borderBottom={'2px solid #E2E8F0'}>
+                                                    <Tr key={dt.id} bgColor={randomColor ? randomColor : '#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                                         <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{dt.name}</Td>
+                                                        <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{resultByArea.score}%</Td>
                                                         <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: recommendation ? recommendation.text : '' }} />
                                                     </Tr>
                                                 </>
@@ -120,10 +125,10 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                                     const componentValue = completeResults.resultsByComponent[component.id].score;
                                                     const randomColor = bgColors[i];
                                                     return (
-                                                        <Tr key={component.id} bgColor={i % 2 === 0 ? '#F8FAFC' : randomColor} borderBottom={'2px solid #E2E8F0'}>
+                                                        <Tr key={component.id} bgColor={randomColor ? randomColor : '#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                                             {
                                                                 i === 0 && (
-                                                                    <Td rowSpan={area.components.length} textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{areaName}</Td>
+                                                                    <Td bgColor={'#F8FAFC'} rowSpan={area.components.length} textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{areaName}</Td>
                                                                 )
                                                             }
                                                             <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{componentName}</Td>

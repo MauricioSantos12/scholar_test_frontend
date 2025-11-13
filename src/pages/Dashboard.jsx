@@ -72,7 +72,7 @@ const Dashboard = () => {
         {
             title: 'Test completados',
             icon: 'UilCloudCheck',
-            value: dataResults?.length || 0,
+            value: dataResults?.data?.length || 0,
             bgColor: 'green.50',
             colorIcon: 'green.500'
         },

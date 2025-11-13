@@ -1,4 +1,4 @@
-import { Container, Stack, Text } from '@chakra-ui/react';
+import { Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import UniIcon from '../utils/UniIcon';
 import { useNavigate } from 'react-router-dom';
@@ -66,26 +66,46 @@ const DashboardLayout = ({ children }) => {
             component: 'studenttests'
         }
     ]
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
             <Stack h="100%" w={{ base: '50px', md: '250px' }} borderColor='#dee6ed' bgColor='white' overflow={'hidden'} pt={5} px={2} >
                 {
                     items.map((item, index) => (
-                        <Stack
-                            onClick={() => { navigate(`/${item.component}`); setSeletecView(item.name) }}
-                            flexDir={'row'}
-                            key={index}
-                            bgColor={selectedView === item.name ? 'primary.500' : ''}
-                            color={selectedView === item.name ? 'white' : ''}
-                            px={4}
-                            py={2}
-                            borderRadius={6}
-                            _hover={{ bgColor: 'primary.100', color: 'primary.500', cursor: 'pointer' }}
-                            justifyContent={{ base: 'center', md: 'flex-start' }}
-                        >
-                            <UniIcon icon={item.icon} />
-                            <Text display={{ base: 'none', md: 'block' }}>{item.name}</Text>
-                        </Stack>
+                        <>
+                            <Stack
+                                display={{ base: 'none', md: 'flex' }}
+                                onClick={() => { navigate(`/${item.component}`); setSeletecView(item.name) }}
+                                flexDir={'row'}
+                                key={index}
+                                bgColor={selectedView === item.name ? 'primary.500' : ''}
+                                color={selectedView === item.name ? 'white' : ''}
+                                px={4}
+                                py={2}
+                                borderRadius={6}
+                                _hover={{ bgColor: 'primary.100', color: 'primary.500', cursor: 'pointer' }}
+                                justifyContent={{ base: 'center', md: 'flex-start' }}
+                            >
+                                <UniIcon icon={item.icon} />
+                                <Text display={{ base: 'none', md: 'block' }}>{item.name}</Text>
+                            </Stack>
+                            <Stack
+                                display={{ base: 'flex', md: 'none' }}
+                                onClick={() => { onOpen() }}
+                                flexDir={'row'}
+                                key={index}
+                                bgColor={selectedView === item.name ? 'primary.500' : ''}
+                                color={selectedView === item.name ? 'white' : ''}
+                                px={4}
+                                py={2}
+                                borderRadius={6}
+                                _hover={{ bgColor: 'primary.100', color: 'primary.500', cursor: 'pointer' }}
+                                justifyContent={{ base: 'center', md: 'flex-start' }}
+                            >
+                                <UniIcon icon={item.icon} />
+                                <Text display={{ base: 'none', md: 'block' }}>{item.name}</Text>
+                            </Stack>
+                        </>
                     ))
                 }
             </Stack>
@@ -97,6 +117,39 @@ const DashboardLayout = ({ children }) => {
 
                 </Container>
             </Stack>
+            <Drawer
+                isOpen={isOpen}
+                placement='left'
+                onClose={onClose}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Menú</DrawerHeader>
+
+                    <DrawerBody>
+                        {
+                            items.map((item, index) => (
+                                <Stack
+                                    onClick={() => { onClose(); navigate(`/${item.component}`); setSeletecView(item.name); }}
+                                    flexDir={'row'}
+                                    key={index}
+                                    bgColor={selectedView === item.name ? 'primary.500' : ''}
+                                    color={selectedView === item.name ? 'white' : ''}
+                                    px={4}
+                                    py={2}
+                                    borderRadius={6}
+                                    _hover={{ bgColor: 'primary.100', color: 'primary.500', cursor: 'pointer' }}
+                                    justifyContent={'flex-start'}
+                                >
+                                    <UniIcon icon={item.icon} />
+                                    <Text>{item.name}</Text>
+                                </Stack>
+                            ))
+                        }
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
         </Stack>
     )
 }

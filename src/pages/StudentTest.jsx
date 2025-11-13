@@ -81,7 +81,6 @@ const StudentTest = () => {
 
 
     const typeTest = completeTest && completeTest.testType && completeTest.testType.length > 0 && dataTestTypes && dataTestTypes.length > 0 && dataTestTypes.find(type => type.id == parseInt(completeTest.testType[0].id))
-
     const props = {
         completeTest,
         setStep,
@@ -158,6 +157,8 @@ const StudentTest = () => {
 
     if (loadingTests || !completeTest || loadingTestTypes) return <Loading />;
     if (errorTests || errorTestTypes) return <Text color={'red.500'}>Error: {errorTests || errorTestTypes}</Text>;
+    if (!typeTest) return <Loading />;
+
     return (
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' alignItems={'flex-start'} justifyContent={'center'} >
             <Container maxW={{ base: '90%', md: '800px' }} margin={'0 auto'} w='100%' h='auto' p={8} gap={4} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'} bg='white' boxShadow={'lg'} borderRadius={8} m={8}>

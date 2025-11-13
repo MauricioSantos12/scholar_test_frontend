@@ -10,7 +10,6 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
     const { isOpen, onOpen, onClose } = useDisclosure()
     const areas = completeTest.areas[areaStep];
     const question = areas.questionsByArea[questionStep];
-    console.log({ question })
     const handleNext = () => {
         if (!sentAnswer && typeTest?.id == 2 && selectedAnswer?.explanation) {
             setSentAnswer(true);
@@ -19,9 +18,10 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
             setAnswersByUser(prevAnswers => [...prevAnswers, { question_id: question.id, answer_id: selectedAnswer?.id }]);
             if (questionStep == areas.questionsByArea.length - 1) {
                 if (areaStep == completeTest.areas.length - 1) {
-                    setCurrentQuestion(currentQuestion + 1);
+                    // setCurrentQuestion(currentQuestion + 1);
                     setStep('resultView');
                 } else {
+                    setCurrentQuestion(currentQuestion + 1);
                     setStep('areaView');
                     setAreaStep(areaStep + 1);
                     setComponentStep(0);

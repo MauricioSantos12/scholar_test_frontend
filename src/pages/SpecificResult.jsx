@@ -13,7 +13,7 @@ const SpecificResult = () => {
     const [completeTest, setCompletTest] = useState([]);
     const [completeResults, setCompletResults] = useState([]);
     const { id } = useParams();
-    const user = dataUsers && dataUsers.length > 0 && dataUsers.find((user) => user._id === data.user);
+    const user = dataUsers && dataUsers.length > 0 && dataUsers.find((user) => user._id === data?.user);
 
     const getFullTest = async () => {
 

@@ -33,6 +33,12 @@ const Results = () => {
 
     }, [fetchResults, page]);
 
+    const parsedStatus = {
+        'completed': 'Completado',
+        'incomplete': 'Incompleto',
+        'in_progress': 'En progreso'
+    }
+
     if (loadingResults || loadingTests || loadingUsers) return <Loading />;
     if (errorResults || errorTests || errorUsers) return <Text color={'red.500'}>Error: {errorResults || errorTests || errorUsers}</Text>;
     return (
@@ -69,8 +75,8 @@ const Results = () => {
                                                 <Td textAlign={'center'}>{test && test.name}</Td>
                                                 <Td textAlign={'center'}>{user && `${user.name} ${user?.lastName || ''}`}</Td>
                                                 <Td textAlign={'center'}>{data.score}</Td>
-                                                <Td textAlign={'center'}>{data.status}</Td>
-                                                <Td textAlign={'center'} onClick={() => navigate(`/results/${data.id}`)} ><UniIcon size={5} icon={'UilEye'} cursor={'pointer'} /></Td>
+                                                <Td textAlign={'center'}>{parsedStatus[data.status]}</Td>
+                                                <Td textAlign={'center'} onClick={() => data.status === 'completed' && navigate(`/results/${data.id}`)} ><UniIcon size={5} icon={'UilEye'} color={data.status === 'completed' ? 'primary.500' : 'gray'} cursor={data.status === 'completed' ? 'pointer' : 'not-allowed'} /></Td>
                                             </Tr>
                                         )
                                     })}
