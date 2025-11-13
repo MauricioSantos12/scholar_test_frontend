@@ -25,38 +25,50 @@ const InitialView = ({ completeTest, setStep, fetchTests, user, setTestResult, s
         <Stack w='100%' gap={4} >
             <Stack my={4} w={'100%'} gap={2}>
                 <Heading color={'dark_text'} textAlign={'center'} fontWeight={'bold'} fontSize={{ base: '0.9rem', md: '1.5rem' }}>{`Bienvenido a la prueba ${completeTest.name}`}</Heading>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>{completeTest.description}</Text>
+                {/* <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>{completeTest.description}</Text> */}
             </Stack>
-            <Divider />
+            {/* <Divider /> */}
             <Stack w={'100%'} gap={2}>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>El objetivo de este ejercicio es conocer tus habilidades, actitudes y nivel de razonamiento frente a diferentes situaciones que podrían presentarse en un entorno laboral o académico. A lo largo del test encontrarás preguntas agrupadas por áreas y componentes específicas, cada una diseñada para evaluar distintas dimensiones de tu perfil.</Text>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>Cada pregunta contará con respuestas de <b>opción múltiple</b>, y deberás seleccionar aquella que consideres <b>más apropiada o cercana a tu forma de actuar o pensar.</b></Text>
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} fontWeight={'bold'} textAlign={'center'}>  ¡Bienvenido(a)! </Text>
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>El examen de Estado Saber 11° es una evaluación estandarizada que aplica el ICFES con el propósito de medir las competencias desarrolladas por los estudiantes al finalizar la educación media. Estas competencias reflejan la capacidad de usar los conocimientos adquiridos en distintas áreas para comprender, analizar y resolver situaciones del entorno académico y cotidiano.                </Text>
             </Stack>
-            <Divider />
             <Stack w={'100%'} gap={2}>
-                <Text color={'text'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '0.9rem' }}>🔎 Estructura del test</Text>
-                <UnorderedList>
-                    <ListItem><b>Áreas:</b> representan grandes categorías de conocimiento o habilidades (por ejemplo: Comunicación, Liderazgo, Pensamiento Lógico, etc.).</ListItem>
-                    <ListItem><b>Componentes:</b> dentro de cada área, se evaluarán capacidades específicas relacionadas con ella.</ListItem>
-                    <ListItem><b>Preguntas:</b> cada componente incluye una serie de preguntas con distintas opciones de respuesta.</ListItem>
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>El examen se compone de cinco pruebas:
+                </Text>
+                <UnorderedList sx={{
+                    '& > li ': {
+                        color: 'text',
+                        fontSize: { base: '1rem', md: '0.9rem' }
+                    }
+                }}>
+                    <ListItem>Matemáticas</ListItem>
+                    <ListItem>Lectura Crítica</ListItem>
+                    <ListItem>Sociales y Ciudadanas </ListItem>
+                    <ListItem>Ciencias Naturales </ListItem>
+                    <ListItem>Inglés  </ListItem>
                 </UnorderedList>
             </Stack>
-            <Divider />
             <Stack w={'100%'} gap={2}>
-                <Text color={'text'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '0.9rem' }}>🎯 Tu tarea</Text>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>Deberás analizar cuidadosamente cada situación y elegir la respuesta que mejor refleje tu criterio o manera de responder ante ese escenario.</Text>
-                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>No hay respuestas correctas o incorrectas: el propósito es identificar tus fortalezas y áreas de mejora.</Text>
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>Cada prueba está formada por preguntas de selección múltiple con única respuesta, en las que encontrarás un enunciado o situación problema, seguido de cuatro opciones identificadas con las letras A, B, C y D. Solo una de ellas es la correcta.</Text>
             </Stack>
-            <Divider />
             <Stack w={'100%'} gap={2}>
-                <Text color={'text'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '0.9rem' }}>💡 Observaciones</Text>
-                <UnorderedList>
-                    <ListItem>Lee cada enunciado con atención.</ListItem>
-                    <ListItem>Responde con sinceridad, basándote en lo que harías normalmente.</ListItem>
-                    <ListItem>Evita cambiar tus respuestas con frecuencia; confía en tu primera intuición.</ListItem>
-                    <ListItem>Una vez que finalices todas las áreas, podrás ver tus resultados generales y por componente.</ListItem>
+                <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }}>Durante el examen:
+                </Text>
+                <UnorderedList sx={{
+                    '& > li ': {
+                        color: 'text',
+                        fontSize: { base: '1rem', md: '0.9rem' }
+                    }
+                }}>
+                    <ListItem>Lee atentamente cada texto o situación antes de responder.  </ListItem>
+                    <ListItem>Analiza la información disponible; muchas preguntas no requieren memorizar, sino razonar y aplicar conceptos.</ListItem>
+                    <ListItem>Selecciona únicamente una opción por pregunta.</ListItem>
+                    <ListItem> Administra tu tiempo: todas las pruebas tienen un tiempo máximo total, no por área.</ListItem>
+                    <ListItem> El resultado que obtengas permitirá conocer tu nivel de desarrollo en las competencias evaluadas y servirá como referencia para el ingreso a la educación superior.</ListItem>
                 </UnorderedList>
             </Stack>
+            <Text fontSize={{ base: '1rem', md: '0.9rem' }} fontStyle={'italic'}>Recuerda: no se trata solo de saber datos, sino de demostrar comprensión, análisis y pensamiento crítico.</Text>
+
             <Button w={'100%'} variant={'solid'} onClick={() => handleStart()}>Comenzar prueba</Button>
         </Stack>
     )

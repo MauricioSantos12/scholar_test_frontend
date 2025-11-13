@@ -59,7 +59,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                     )
                 }
                 {
-                    question?.video_url && (
+                    question?.video_url && typeTest?.id == 3 && (
                         <RenderVideo videoUrl={question?.video_url} />
                     )
                 }

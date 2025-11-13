@@ -45,6 +45,11 @@ const DashboardLayout = ({ children }) => {
             component: 'users'
         },
         {
+            name: 'Resutados',
+            icon: 'UilCheckCircle',
+            component: 'results'
+        },
+        {
             name: 'Observaciones',
             icon: 'UilAdjustCircle',
             component: 'recommendations'

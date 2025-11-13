@@ -18,6 +18,8 @@ import Users from "../pages/Users";
 import Recommendations from "../pages/Recommendations";
 import Metrics from "../pages/Metrics";
 import TestTypes from "../pages/TestTypes";
+import Results from "../pages/Results";
+import SpecificResult from "../pages/SpecificResult";
 
 const AppRoutes = () => {
     return (
@@ -103,6 +105,28 @@ const AppRoutes = () => {
                     <MainLayout>
                         <DashboardLayout>
                             <Users />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
+                path="/results"
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <Results />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
+                path='/results/:id'
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <SpecificResult />
                         </DashboardLayout>
                     </MainLayout>
                 }
