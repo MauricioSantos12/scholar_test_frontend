@@ -45,10 +45,8 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
                         apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                         init={{
                             setup: (editor) => {
-                                editor.on('OpenDialog', (e) => {
-                                    console.log({ e })
+                                editor.on('OpenDialog', () => {
                                     const dialogs = document.querySelectorAll('.tox-dialog');
-                                    console.log({ dialogs })
                                     dialogs.forEach((dialog) => {
                                         dialog.style.zIndex = 200000;
                                     });

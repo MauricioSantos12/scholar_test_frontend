@@ -13,11 +13,9 @@ const Login = () => {
         setError('');
         if (email && password) {
             const data = await login(email, password);
-            console.log({ data })
             if (!data) {
                 setError('Credenciales incorrectas')
             }
-            console.log({ data })
             if (data && data?.user) {
                 const { role } = data.user;
                 switch (role) {

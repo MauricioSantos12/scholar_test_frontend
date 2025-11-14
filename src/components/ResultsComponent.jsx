@@ -60,11 +60,11 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                 </Stack>
                 <Text w='100%' fontWeight={'bold'} textAlign={'center'} color={'primary.500'} fontSize={{ base: '1.5rem', md: '3rem' }}>{completeResults?.totalScore}%</Text>
                 <Text textAlign={'center'} >{`Preguntas acertadas ${completeResults?.totalCorrect} / ${completeResults?.totalQuestions}`}</Text>
-                <Stack gap={4}>
+                <Stack gap={4} w={'100%'}>
                     {
                         completeTest && completeTest.areas && completeTest.areas.length > 0 && completeResults && dataRecommendations && (
                             <TableContainer w={'100%'}>
-                                <Table variant='simple' size={'lg'} border='2px solid #E2E8F0'>
+                                <Table variant='simple' size={{ base: 'sm', md: 'md' }} border='2px solid #E2E8F0'>
                                     <Thead>
                                         <Tr bgColor={'#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                             <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Área</Th>
@@ -80,9 +80,6 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                             if (recommendationsByArea) {
                                                 recommendationsByArea.forEach(element => {
                                                     if (element.min_score && element.max_score) {
-                                                        console.log(resultByArea.score)
-                                                        console.log(element.min_score)
-                                                        console.log(parseInt(resultByArea.score) >= parseInt(element.min_score))
                                                         if (parseInt(resultByArea.score) >= parseInt(element.min_score) && parseInt(resultByArea.score) <= parseInt(element.max_score)) {
                                                             recommendation = element
                                                         }
@@ -94,7 +91,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                                 <>
                                                     <Tr key={dt.id} bgColor={randomColor ? randomColor : '#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                                         <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{dt.name}</Td>
-                                                        <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{resultByArea.score}%</Td>
+                                                        <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{resultByArea?.score}%</Td>
                                                         <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: recommendation ? recommendation.text : '' }} />
                                                     </Tr>
                                                 </>
@@ -111,7 +108,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                 const areaName = area.name;
                                 return (
                                     <TableContainer w={'100%'}>
-                                        <Table variant='simple' size={'lg'} border='2px solid #E2E8F0'>
+                                        <Table variant='simple' size={{ base: 'sm', md: 'md' }} border='2px solid #E2E8F0'>
                                             <Thead>
                                                 <Tr borderBottom={'2px solid #E2E8F0'}>
                                                     <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Area</Th>
@@ -121,8 +118,8 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                             </Thead>
                                             <Tbody>
                                                 {area.components.map((component, i) => {
-                                                    const componentName = component.name;
-                                                    const componentValue = completeResults.resultsByComponent[component.id].score;
+                                                    const componentName = component?.name;
+                                                    const componentValue = completeResults?.resultsByComponent[component?.id]?.score;
                                                     const randomColor = bgColors[i];
                                                     return (
                                                         <Tr key={component.id} bgColor={randomColor ? randomColor : '#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>

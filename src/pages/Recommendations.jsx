@@ -148,7 +148,7 @@ const Recommendations = () => {
                             </Thead>
                             <Tbody>
                                 {data.map((data, i) => (
-                                    <Tr key={data._id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                    <Tr key={`${data.id}-${i}`} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
                                         <Td textAlign={'center'}>{dataAreas && dataAreas.find((area) => area.id === data.area_id) && dataAreas.find((area) => area.id === data.area_id).name}</Td>
                                         <Td textAlign={'center'}>{data.min_score}</Td>
                                         <Td textAlign={'center'}>{data.max_score}</Td>
