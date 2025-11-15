@@ -48,11 +48,13 @@ const StudentTests = () => {
                                     }}>
                                         <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'} w='100%'>
                                             <Stack flexDir={'row'} w='100%' alignItems={'flex-start'} justifyContent={'space-between'}>
-                                                <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'}>
-                                                    <Text fontWeight={'semibold'} fontSize={'1.7rem'} color={'#344256'}>{item.name}</Text>
+                                                <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'} >
+                                                    <Stack flexDir='row' w='100%' alignItems={'center'} justifyContent={'space-between'}>
+                                                        <Text fontWeight={'semibold'} fontSize={{ base: '1rem', md: '1.4rem' }} color={'#344256'}>{item.name}</Text>
+                                                        <Text textAlign={'justify'} fontSize={'0.7rem'} color={style.color} bgColor={style.bgColor} py={1} px={2} borderRadius={8} border={'1px solid'} borderColor={style.borderColor} >{dataTestTypes && dataTestTypes.length > 0 ? dataTestTypes.find((type) => type.id === item.type_id)?.name : item.type_id}</Text>
+                                                    </Stack>
                                                     <Text color={'#65758b'} fontSize={'0.9rem'} fontWeight={'normal'}>{item.description}</Text>
                                                 </Stack>
-                                                <Text color={style.color} bgColor={style.bgColor} py={1} px={2} borderRadius={8} border={'1px solid'} borderColor={style.borderColor} >{dataTestTypes && dataTestTypes.length > 0 ? dataTestTypes.find((type) => type.id === item.type_id)?.name : item.type_id}</Text>
                                             </Stack>
 
                                             <Button w={'100%'} variant={"solid"} leftIcon={<UniIcon icon={'UilPlayCircle'} />} onClick={() => navigate(`/studenttest/${item.id}`)} >Comenzar test</Button>

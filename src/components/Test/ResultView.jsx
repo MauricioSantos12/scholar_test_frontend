@@ -1,4 +1,4 @@
-import { Button, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Button, Container, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
@@ -65,21 +65,22 @@ const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setCo
   if (errorTests || errorRecommendations) return <Text color={'red.500'}>Error: {errorTests || errorRecommendations}</Text>;
   if (loadingTests || loadingRecommendations || !completeTest) return <Loading />
   return (
-    <Stack w='100%' gap={{ base: 2, md: 4 }}>
-      <Stack w={'100%'} gap={2} flexDir='row' justifyContent={{ base: 'flex-start', md: 'flex-end' }}>
-        <Button
-          onClick={handlePrint}
-          colorScheme="teal"
-          variant="gray"
-          size={{ base: 'xs', md: 'md' }}
-        > Descargar resultados <UniIcon icon="UilDownloadAlt" size={6} ml={1} /></Button>
+    <Container maxW={{ base: '90%', md: '800px' }} margin={'0 auto'} w='100%' h='auto' p={4} gap={1} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'} bg='white' boxShadow={'lg'} borderRadius={8} m={8}>
+      <Stack w='100%' gap={1}>
+        <Stack w={'100%'} gap={2} flexDir='row' justifyContent={{ base: 'flex-start', md: 'flex-end' }}>
+          <Button
+            onClick={handlePrint}
+            colorScheme="teal"
+            variant="gray"
+            size={{ base: 'xs', md: 'md' }}
+          > Descargar resultados <UniIcon icon="UilDownloadAlt" size={6} ml={1} /></Button>
+        </Stack>
+        <Stack w='100%' ref={contentRef} p={2} maxW={'750px'} margin={'0 auto'} justifyContent={'center'} alignItems={'center'} >
+          <ResultsComponent completeTest={completeTest} user={user} completeResults={data} dataRecommendations={dataRecommendations} showDownloadButton={false} />
+        </Stack>
+        <Button w={'100%'} variant={'solid'} onClick={() => { handleFinishTest() }} leftIcon={<UniIcon icon={'UilArrowCircleLeft'} />} >Regresar</Button>
       </Stack>
-      <Stack w='100%' ref={contentRef} p={{ base: 4, md: 8 }} maxW={'750px'} margin={'0 auto'} justifyContent={'center'} alignItems={'center'} >
-        <ResultsComponent completeTest={completeTest} user={user} completeResults={data} dataRecommendations={dataRecommendations} showDownloadButton={false} />
-
-      </Stack>
-      <Button w={'100%'} variant={'solid'} mt={{ base: 3, md: 5 }} onClick={() => { handleFinishTest() }} leftIcon={<UniIcon icon={'UilArrowCircleLeft'} />} >Regresar</Button>
-    </Stack>
+    </Container>
   )
 }
 

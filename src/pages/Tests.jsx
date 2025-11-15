@@ -16,6 +16,7 @@ const Tests = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [typeTest, setTypeTest] = useState('');
+  const [maxTimeMinutes, setMaxTimeMinutes] = useState('');
   const [registerSelected, setRegisterSelected] = useState(null);
   const [refreshData, setRefreshData] = useState(false);
   const navigation = useNavigate();
@@ -41,6 +42,7 @@ const Tests = () => {
     setDescription('');
     setRegisterSelected(null);
     setErroModal('');
+    setMaxTimeMinutes('');
     setRefreshData(!refreshData);
   }
 
@@ -74,6 +76,7 @@ const Tests = () => {
           name,
           description,
           type_id: parseInt(typeTest),
+          max_time_minutes: parseInt(maxTimeMinutes),
         }
       });
       handleClose();
@@ -87,6 +90,7 @@ const Tests = () => {
     setName(data.name);
     setDescription(data.description);
     setTypeTest(data.type_id);
+    setMaxTimeMinutes(data.max_time_minutes);
     setRegisterSelected(data);
   }
 
@@ -108,6 +112,7 @@ const Tests = () => {
           name,
           description,
           type_id: parseInt(typeTest),
+          max_time_minutes: parseInt(maxTimeMinutes),
         }
       });
     } catch (error) {
@@ -172,7 +177,7 @@ const Tests = () => {
                   return (
                     <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
                       <Td textAlign={'center'}>{dt.name}</Td>
-                      <Td textAlign={'center'}>{dt.description && dt.description.length > 100 ? dt.description.substring(0, 100) + '...' : dt.description}</Td>
+                      <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.description && dt.description.length > 150 ? dt.description.substring(0, 200) + '...' : dt.description }} />
                       <Td textAlign={'center'}>{dataTypeTests && dataTypeTests.length > 0 && dataTypeTests.find(d => d.id === dt.type_id).name}</Td>
                       <Td textAlign={'center'}>
                         <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
@@ -195,6 +200,7 @@ const Tests = () => {
             <InputText text={'Nombre'} placeholder={'Nombre del test'} type={'text'} value={name} setValue={setName} />
             <InputText text={'Descripcion'} placeholder={'Descripcion del test'} type={'text'} value={description} setValue={setDescription} />
             <InputSelect text={'Tipo'} value={typeTest} setValue={setTypeTest} options={dataTypeTests} />
+            <InputText text={'Tiempo maximo'} placeholder={'Tiempo maximo'} type={'number'} value={maxTimeMinutes} setValue={setMaxTimeMinutes} />
             {
               errorModal && (
                 <Text color={'red.500'}>{errorModal}</Text>
@@ -214,6 +220,7 @@ const Tests = () => {
             <InputText text={'Nombre'} placeholder={'Nombre del test'} type={'text'} value={name} setValue={setName} />
             <InputText text={'Descripcion'} placeholder={'Descripcion del test'} type={'text'} value={description} setValue={setDescription} />
             <InputSelect text={'Tipo'} value={typeTest} setValue={setTypeTest} options={dataTypeTests} />
+            <InputText text={'Tiempo maximo'} placeholder={'Tiempo maximo'} type={'number'} value={maxTimeMinutes} setValue={setMaxTimeMinutes} />
             {
               errorModal && (
                 <Text color={'red.500'}>{errorModal}</Text>

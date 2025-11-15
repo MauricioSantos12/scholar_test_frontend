@@ -1,4 +1,4 @@
-import { Heading, Select, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Button, Heading, Input, Select, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UseFetch from '../utils/UseFetch';
 import Loading from '../components/Loading';
@@ -14,6 +14,10 @@ const Results = () => {
     const [userFilter, setUserFilter] = useState('');
     const [testFilter, setTestFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [doFilter, setDoFilter] = useState(false);
+    const showToast = useToast();
 
     const navigate = useNavigate();
 
@@ -29,18 +33,44 @@ const Results = () => {
         });
     }, [fetchUsers, fetchTests]);
     useEffect(() => {
+        if (userFilter || testFilter || statusFilter || startDate || endDate) {
+            setDoFilter(true);
+        }
+    }, [userFilter, testFilter, statusFilter, startDate, endDate])
+
+    useEffect(() => {
+
+        fetchResultsFn();
+    }, [fetchResults, page]);
+
+    const fetchResultsFn = () => {
         const urlParams = new URLSearchParams();
         if (page) urlParams.append('page', page);
         if (userFilter) urlParams.append('user_id', userFilter);
         if (testFilter) urlParams.append('test_id', testFilter);
         if (statusFilter) urlParams.append('status', statusFilter);
+        if (startDate) urlParams.append('startDate', startDate);
+        if (endDate) urlParams.append('endDate', endDate);
+        console.log(startDate, endDate)
+        if (startDate && endDate) {
+            const startDateObject = new Date(startDate);
+            const endDateObject = new Date(endDate);
+            if (endDateObject.getTime() < startDateObject.getTime()) {
+                showToast({
+                    title: "No se puede filtrar",
+                    description: "La fecha de fin debe ser posterior a la de inicio",
+                    status: "error",
+                    isClosable: true,
+                })
+                return;
+            }
+        }
 
         fetchResults({
             url: `/results?${urlParams.toString()}`,
             method: 'GET',
         });
-
-    }, [fetchResults, page, userFilter, testFilter, statusFilter]);
+    }
 
     const parsedStatus = [
         {
@@ -71,57 +101,70 @@ const Results = () => {
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
             <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Resultados</Heading>
             <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de resultados</Text>
-            <Stack direction={'row'} justifyContent={'flex-end'} w={'100%'}>
-                {
+            <Stack w='100%' gap={2}>
+                <Text color={'dark_text'} fontWeight={'bold'} >Filtros</Text>
+                <Stack direction={'row'} justifyContent={'flex-strt'} w={'100%'}>
+                    {
 
+                        <Stack>
+                            <Text>Estado</Text>
+                            <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                                <option>Selecciona un estado</option>
+                                {
+                                    parsedStatus.map((status) => (
+                                        <option key={status.value} value={status.value}>{status.name}</option>
+                                    ))
+                                }
+
+                            </Select>
+                        </Stack>
+
+                    }
+                    {
+                        dataTests && dataTests.length > 0 && (
+                            <Stack>
+                                <Text>Test</Text>
+                                <Select value={testFilter} onChange={(e) => setTestFilter(e.target.value)}>
+                                    <option>Selecciona un test</option>
+                                    {
+                                        dataTests.map((test) => (
+                                            <option key={test.name} value={test.id}>{test.name}</option>
+                                        ))
+                                    }
+
+                                </Select>
+                            </Stack>
+                        )
+                    }
+                    {
+                        dataUsers && dataUsers.length > 0 && (
+                            <Stack>
+                                <Text>Usuario</Text>
+                                <Select value={userFilter} onChange={(e) => setUserFilter(e.target.value)}>
+                                    <option>Selecciona un usuario</option>
+                                    {
+                                        dataUsers.map((user) => (
+                                            <option key={user.name} value={user.id}>{user.name}</option>
+                                        ))
+                                    }
+
+                                </Select>
+                            </Stack>
+                        )
+                    }
                     <Stack>
-                        <Text>Filtrar por estado</Text>
-                        <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                            <option>Selecciona un estado</option>
-                            {
-                                parsedStatus.map((status) => (
-                                    <option key={status.value} value={status.value}>{status.name}</option>
-                                ))
-                            }
-
-                        </Select>
+                        <Text>Fecha de inicio</Text>
+                        <Input placeholder='Fecha de inicio' value={startDate} onChange={(e) => setStartDate(e.target.value)} size='md' type='date' />
+                    </Stack>
+                    <Stack>
+                        <Text>Fecha de fin</Text>
+                        <Input placeholder='Fecha de fin' value={endDate} onChange={(e) => setEndDate(e.target.value)} size='md' type='date' />
                     </Stack>
 
-                }
-                {
-                    dataTests && dataTests.length > 0 && (
-                        <Stack>
-                            <Text>Filtrar por test</Text>
-                            <Select value={testFilter} onChange={(e) => setTestFilter(e.target.value)}>
-                                <option>Selecciona un test</option>
-                                {
-                                    dataTests.map((test) => (
-                                        <option key={test.name} value={test.id}>{test.name}</option>
-                                    ))
-                                }
-
-                            </Select>
-                        </Stack>
-                    )
-                }
-                {
-                    dataUsers && dataUsers.length > 0 && (
-                        <Stack>
-                            <Text>Filtrar por usuario</Text>
-                            <Select value={userFilter} onChange={(e) => setUserFilter(e.target.value)}>
-                                <option>Selecciona un usuario</option>
-                                {
-                                    dataUsers.map((user) => (
-                                        <option key={user.name} value={user.id}>{user.name}</option>
-                                    ))
-                                }
-
-                            </Select>
-                        </Stack>
-                    )
-                }
-
+                </Stack>
+                <Button size='sm' disabled={!doFilter} variant={'solid'} w='fit-content' onClick={() => fetchResultsFn()} >Filtrar</Button>
             </Stack>
+
             {
                 (!dataResults || dataResults && dataResults.data.length === 0) && (
                     <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han generado resultados</Text>

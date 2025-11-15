@@ -13,6 +13,10 @@ const Users = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [identificationNumber, setIdentificationNumber] = useState('');
+    const [password, setPassword] = useState('');
+    const [dateBirth, setDateBirth] = useState('');
+    const [schoolName, setSchoolName] = useState('');
+    const [city, setCity] = useState('');
     const [registerSelected, setRegisterSelected] = useState(null);
     const [refreshData, setRefreshData] = useState(false);
     const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure()
@@ -32,6 +36,10 @@ const Users = () => {
         setLastName('');
         setEmail('');
         setIdentificationNumber('');
+        setPassword('');
+        setDateBirth('');
+        setSchoolName('');
+        setCity('');
         setRegisterSelected(null);
         setRefreshData(!refreshData);
     }
@@ -52,7 +60,12 @@ const Users = () => {
                     name,
                     last_name: lastName,
                     email,
-                    identification_number: identificationNumber
+                    identification_number: identificationNumber,
+                    password,
+                    date_birth: dateBirth,
+                    school_name: schoolName,
+                    city,
+                    role: 'student'
                 }
             });
             handleClose();
@@ -67,6 +80,9 @@ const Users = () => {
         setLastName(data.last_name);
         setEmail(data.email);
         setIdentificationNumber(data.identification_number);
+        setCity(data.city);
+        setSchoolName(data.school_name);
+        setDateBirth(data.date_birth);
         setRegisterSelected(data);
     }
 
@@ -83,7 +99,11 @@ const Users = () => {
                     name,
                     last_name: lastName,
                     email,
-                    identification_number: identificationNumber
+                    identification_number: identificationNumber,
+                    password,
+                    date_birth: dateBirth,
+                    school_name: schoolName,
+                    city
                 }
             });
             handleClose();
@@ -173,6 +193,9 @@ const Users = () => {
                         <InputText text={'Apellido'} placeholder={'Apeliido'} type={'text'} value={lastName} setValue={setLastName} />
                         <InputText text={'Correo'} placeholder={'Correo'} type={'email'} value={email} setValue={setEmail} />
                         <InputText text={'Identificacion'} placeholder={'Identificacion'} type={'text'} value={identificationNumber} setValue={setIdentificationNumber} />
+                        <InputText text={'Ciudad'} placeholder={'Ciudad'} type={'text'} value={city} setValue={setCity} />
+                        <InputText text={'Colegio'} placeholder={'Colegio'} type={'text'} value={schoolName} setValue={setSchoolName} />
+                        <InputText text={'Contraseña'} placeholder={'Contraseña'} type={'password'} value={password} setValue={setPassword} />
                         <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w='100%'>
                             <Button variant={"gray"} size="sm" onClick={handleClose}> Cancelar</Button>
                             <Button variant={"solid"} size="sm" onClick={handleSave}> Crear</Button>
@@ -188,6 +211,10 @@ const Users = () => {
                         <InputText text={'Apellido'} placeholder={'Apeliido'} type={'text'} value={lastName} setValue={setLastName} />
                         <InputText text={'Correo'} placeholder={'Correo'} type={'email'} value={email} setValue={setEmail} disabled={true} />
                         <InputText text={'Identificacion'} placeholder={'Identificacion'} type={'text'} value={identificationNumber} setValue={setIdentificationNumber} disabled={true} />
+                        <InputText text={'Ciudad'} placeholder={'Ciudad'} type={'text'} value={city} setValue={setCity} />
+                        <InputText text={'Colegio'} placeholder={'Colegio'} type={'text'} value={schoolName} setValue={setSchoolName} />
+                        <InputText text={'Pasword'} placeholder={'****'} type={'password'} value={password} setValue={setPassword} disabled={true} />
+
                         <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w='100%'>
                             <Button variant={"gray"} size="sm" onClick={handleClose}> Cancelar</Button>
                             <Button variant={"solid"} size="sm" onClick={handleUpdate}> Actualizar</Button>

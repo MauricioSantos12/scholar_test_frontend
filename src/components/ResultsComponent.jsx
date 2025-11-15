@@ -19,7 +19,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
     ]
 
     return (
-        <Stack w='100%' gap={{ base: 2, md: 4 }}>
+        <Stack w='100%' gap={2}>
             {
                 showDownloadButton && (
                     <>
@@ -44,7 +44,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                 )
             }
 
-            <Stack w='100%' ref={contentRef} p={{ base: 4, md: 8 }} maxW={'750px'} margin={'0 auto'} justifyContent={'center'} alignItems={'center'} >
+            <Stack w='100%' ref={contentRef} p={4} maxW={'750px'} margin={'0 auto'} justifyContent={'center'} alignItems={'center'} >
                 <Stack my={{ base: 1, md: 4 }} w={'100%'} gap={{ base: 2, md: 4 }}>
                     <Stack w='100%' justifyContent={'center'} alignItems={'center'}>
                         <UniIcon icon={'UilCheckCircle'} color='green.400' size={{ base: '4rem', md: '6rem' }} bgColor={'green.100'} borderRadius={'50%'} p={4} />
