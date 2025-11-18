@@ -5,6 +5,7 @@ import Loading from '../components/Loading.jsx';
 import UniIcon from "../utils/UniIcon.jsx";
 import UseFetch from '../utils/UseFetch.js';
 import { styleTypes } from '../utils/constants.jsx';
+import { speakText } from '../utils/useSpeech.jsx';
 
 const StudentTests = () => {
     const { data: dataTests, loading: loadingTests, error: errorTests, fetchData: fetchTests } = UseFetch()
@@ -13,6 +14,8 @@ const StudentTests = () => {
     const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
     const colorText = useColorModeValue('text', 'secondary.200');
     const bgColorCards = useColorModeValue('white', 'secondary.900');
+
+
 
     useEffect(() => {
         fetchTests({
@@ -30,12 +33,16 @@ const StudentTests = () => {
 
     if (loadingTests || loadingTestTypes) return <Loading />;
     if (errorTests || errorTestTypes) return <Text color={'red.500'}>Error: {errorTests || errorTestTypes}</Text>;
+    const titleText = 'Tests Disponibles';
+    const descriptionText = 'Selecciona un test para comenzar';
     return (
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
             <Container maxW={'container.xl'} w='100%' h='auto' p={8} gap={4} display={'flex'} flexDir={'column'}>
                 <Stack my={4} h={'auto'}>
-                    <Heading color={colorDarkText} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '1.5rem' }}>Tests Disponibles</Heading>
-                    <Text color={colorText} fontSize={{ base: 'md', md: 'xl' }}>Selecciona un test para comenzar</Text>
+                    <Heading color={colorDarkText} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '1.5rem' }}>{titleText} <UniIcon onClick={() => speakText(titleText)} cursor={'pointer'} icon={'UilVolume'} size={4} /></Heading>
+                    <Text color={colorText} fontSize={{ base: 'md', md: 'xl' }}>{descriptionText}
+                        <UniIcon onClick={() => speakText(descriptionText)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                    </Text>
                 </Stack>
                 <Stack direction='row' flexWrap='wrap' gap={4} justifyContent={'flex-start'} alignItems={'center'}>
                     {
@@ -55,7 +62,11 @@ const StudentTests = () => {
                                                         <Text fontWeight={'semibold'} fontSize={{ base: '1rem', md: '1.4rem' }} color={colorDarkText}>{item.name}</Text>
                                                         <Text textAlign={'justify'} fontSize={'0.7rem'} color={style.color} bgColor={style.bgColor} py={1} px={2} borderRadius={8} border={'1px solid'} borderColor={style.borderColor} >{dataTestTypes && dataTestTypes.length > 0 ? dataTestTypes.find((type) => type.id === item.type_id)?.name : item.type_id}</Text>
                                                     </Stack>
-                                                    <Text color={colorText} fontSize={'0.9rem'} fontWeight={'normal'} textAlign={'justify'}>{item.description}</Text>
+                                                    <Text color={colorText} fontSize={'0.9rem'} fontWeight={'normal'} textAlign={'justify'}>{item.description}
+
+                                                        <UniIcon onClick={() => speakText(item.description)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+
+                                                    </Text>
                                                 </Stack>
                                             </Stack>
 

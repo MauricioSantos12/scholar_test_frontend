@@ -1,6 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Heading, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import UniIcon from '../../utils/UniIcon';
+import { speakText } from '../../utils/useSpeech';
 
 const AreaView = ({ completeTest, setStep, areaStep }) => {
   const area = completeTest.areas[areaStep];
@@ -27,9 +28,21 @@ const AreaView = ({ completeTest, setStep, areaStep }) => {
         </Stack>
         <Divider />
         <Stack w={'100%'} gap={2}>
-          <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>En esta sección encontrarás preguntas relacionadas con el área de <b>{area?.name}</b>. Su propósito es evaluar tus habilidades y comprensión en los temas propios de esta área.</Text>
-          <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>Responde cada pregunta de manera reflexiva y elige la opción que consideres más adecuada.</Text>
-          <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>{area?.description}</Text>
+          <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>En esta sección encontrarás preguntas relacionadas con el área de <b>{area?.name}</b>. Su propósito es evaluar tus habilidades y comprensión en los temas propios de esta área.
+            <UniIcon onClick={() => speakText(`En esta sección encontrarás preguntas relacionadas con el área de ${area?.name}. Su propósito es evaluar tus habilidades y comprensión en los temas propios de esta área.`)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+          </Text>
+          <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>Responde cada pregunta de manera reflexiva y elige la opción que consideres más adecuada.
+            <UniIcon onClick={() => speakText('Responde cada pregunta de manera reflexiva y elige la opción que consideres más adecuada.')} cursor={'pointer'} icon={'UilVolume'} size={4} />
+
+          </Text>
+          {
+            area?.description && (
+              <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }}>{area?.description}
+                <UniIcon onClick={() => speakText(area?.description)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+              </Text>
+            )
+          }
+
         </Stack>
         <Divider />
         {

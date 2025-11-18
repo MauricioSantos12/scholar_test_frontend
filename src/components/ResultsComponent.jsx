@@ -1,7 +1,8 @@
-import { Button, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react'
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react'
 import React, { useRef } from 'react'
 import UniIcon from '../utils/UniIcon'
 import { useReactToPrint } from 'react-to-print';
+import { speakText, stripHtmlTags } from '../utils/useSpeech.jsx';
 
 const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendations, showDownloadButton = true }) => {
     const contentRef = useRef(null);
@@ -52,8 +53,12 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                     <Stack w='100%' justifyContent={'center'} alignItems={'center'}>
                         <UniIcon icon={'UilCheckCircle'} color='green.400' size={{ base: '4rem', md: '6rem' }} bgColor={'green.100'} borderRadius={'50%'} p={4} />
                     </Stack>
-                    <Heading color={'dark_text'} textAlign={'center'} fontWeight={'bold'} fontSize={{ base: '0.9rem', md: '1.5rem' }}>¡Test completado!</Heading>
-                    <Text textAlign={'center'}>{`Has finalizado el test ${completeTest.name}`}</Text>
+                    <Heading color={'dark_text'} textAlign={'center'} fontWeight={'bold'} fontSize={{ base: '0.9rem', md: '1.5rem' }}>¡Test completado!
+                        <UniIcon onClick={() => speakText(`¡Test completado!`)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                    </Heading>
+                    <Text textAlign={'center'}>{`Has finalizado el test ${completeTest.name}`}
+                        <UniIcon onClick={() => speakText(`Has finalizado el test ${completeTest.name}`)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                    </Text>
                 </Stack>
 
                 <Stack w={'100%'} gap={2}>
@@ -96,6 +101,12 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                                         <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{dt.name}</Td>
                                                         <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{resultByArea?.score}%</Td>
                                                         <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: recommendation ? recommendation.text : '' }} />
+                                                        {recommendation.text &&
+                                                            (
+                                                                <UniIcon onClick={() => speakText(stripHtmlTags(recommendation.text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
+
+                                                            )}
+
                                                     </Tr>
                                                 </>
                                             )

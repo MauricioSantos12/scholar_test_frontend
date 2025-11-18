@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import UniIcon from '../../utils/UniIcon.jsx'
 import VideoModal from '../Modal/VideoModal.jsx';
 import RenderVideo from '../RenderVideo.jsx';
+import { speakText, stripHtmlTags } from '../../utils/useSpeech.jsx';
 const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuestionStep, setAreaStep, setComponentStep, setAnswersByUser, typeTest, setCurrentQuestion, currentQuestion, }) => {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [videoSelected, setVideoSelected] = useState(null);
@@ -10,6 +11,8 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
     const { isOpen, onOpen, onClose } = useDisclosure()
     const areas = completeTest.areas[areaStep];
     const question = areas.questionsByArea[questionStep];
+
+
     const handleNext = () => {
         if (!sentAnswer && typeTest?.id == 2 && selectedAnswer?.explanation) {
             setSentAnswer(true);
@@ -61,8 +64,18 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                 <GridItem bgColor={bgColorColorMode} h='100%' >
                     <Container overflowY={'auto'} maxH={{ base: 'auto', md: '550px', lg: '650px' }} maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
                         <Stack my={8} w={'100%'} gap={2}>
-                            <Heading color={colorDarkText} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}</Heading>
-                            <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
+                            <Heading color={colorDarkText} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}
+                                <UniIcon onClick={() => speakText(`Pregunta ${questionStep + 1}`)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                            </Heading>
+                            {
+                                question?.first_text && question.first_text.trim() != '' && (
+                                    <Stack flexDir={'row'} flexWrap={'wrap'} justify={'flex-start'} alignItems={'center'}>
+                                        <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
+                                        <UniIcon onClick={() => speakText(stripHtmlTags(question?.first_text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                    </Stack>
+                                )
+                            }
+
                             {
                                 question?.image_url && (
                                     <Image loading='lazy' objectFit={'contain'} src={question?.image_url} alt={`Imagen de la pregunta ${questionStep + 1}`} w={{ base: '100%', md: '70%' }} margin={'0 auto'} h={'auto'} minH={'300px'} minW={'300px'} />
@@ -73,7 +86,18 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                     <RenderVideo videoUrl={question?.video_url} />
                                 )
                             }
-                            <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
+                            {
+                                question.second_text && question.second_text.trim() != '' && (
+                                    <Stack flexDir={'row'} flexWrap={'wrap'} justify={'flex-start'} alignItems={'center'}>
+                                        <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
+                                        <UniIcon onClick={() => speakText(stripHtmlTags(question?.second_text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                    </Stack>
+                                )
+                            }
+
+
+
+
                         </Stack>
                     </Container>
                 </GridItem>
@@ -103,9 +127,14 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                                         onClick={() => sentAnswer ? null : setSelectedAnswer(answer)}
                                                         color={selectedAnswer?.id === answer.id ? colorTextSelectedAnswerColorMode : colorTextUnselectedAnswerColorMode}
                                                     >
-                                                        <Text m={0} p={0}
-                                                            dangerouslySetInnerHTML={{ __html: answer.text }}
-                                                        />
+
+                                                        <Stack flexDir={'row'} flexWrap={'wrap'} justify={'flex-start'} alignItems={'center'}>
+                                                            <Text m={0} p={0}
+                                                                dangerouslySetInnerHTML={{ __html: answer.text }}
+                                                            />
+                                                            <UniIcon onClick={() => speakText(stripHtmlTags(answer.text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                                        </Stack>
+
                                                         {
                                                             videoUrl && typeTest && typeTest?.id == 3 && (
                                                                 <Text
