@@ -71,7 +71,7 @@ const DashboardLayout = ({ children }) => {
 
 
     return (
-        <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
+        <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="100%" w='100%' >
             <Stack h="100%" w={{ base: '50px', md: '250px' }} borderColor='#dee6ed' bgColor={bgColor} overflow={'hidden'} pt={5} px={2} >
                 {
                     items.map((item, index) => (
