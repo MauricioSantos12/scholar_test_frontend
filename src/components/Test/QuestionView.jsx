@@ -62,7 +62,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
         <Stack w='100%' gap={0} h='100%' justifyContent={'flex-start'} alignItems={'center'}>
             <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={0} h='100%'>
                 <GridItem bgColor={bgColorColorMode} h='100%' >
-                    <Container overflowY={'auto'} maxH={{ base: 'auto', md: '550px', lg: '650px' }} maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
+                    <Container overflowY={'auto'} maxH={{ base: 'auto', md: '550px', lg: '750px' }} maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
                         <Stack my={8} w={'100%'} gap={2}>
                             <Heading color={colorDarkText} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}
                                 <UniIcon onClick={() => speakText(`Pregunta ${questionStep + 1}`)} cursor={'pointer'} icon={'UilVolume'} size={4} />

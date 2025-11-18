@@ -38,8 +38,8 @@ const StudentTests = () => {
     return (
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
             <Container maxW={'container.xl'} w='100%' h='auto' p={8} gap={4} display={'flex'} flexDir={'column'}>
-                <Stack my={4} h={'auto'}>
-                    <Heading color={colorDarkText} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '1.5rem' }}>{titleText} <UniIcon onClick={() => speakText(titleText)} cursor={'pointer'} icon={'UilVolume'} size={4} /></Heading>
+                <Stack my={4} h={'auto'} w='100%'>
+                    <Heading color={colorDarkText} fontWeight={'bold'} fontSize={{ base: '1.3rem', md: '1.5rem' }} w='100%'>{titleText} <UniIcon onClick={() => speakText(titleText)} cursor={'pointer'} icon={'UilVolume'} size={4} /></Heading>
                     <Text color={colorText} fontSize={{ base: 'md', md: 'xl' }}>{descriptionText}
                         <UniIcon onClick={() => speakText(descriptionText)} cursor={'pointer'} icon={'UilVolume'} size={4} />
                     </Text>
@@ -57,20 +57,30 @@ const StudentTests = () => {
                                     }}>
                                         <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'} w='100%'>
                                             <Stack flexDir={'row'} w='100%' alignItems={'flex-start'} justifyContent={'space-between'}>
-                                                <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'} >
-                                                    <Stack flexDir='row' w='100%' alignItems={'center'} justifyContent={'space-between'}>
-                                                        <Text fontWeight={'semibold'} fontSize={{ base: '1rem', md: '1.4rem' }} color={colorDarkText}>{item.name}</Text>
+                                                <Stack flexDir='column' alignItems={'flex-start'} justifyContent={'flex-start'} w='100%'>
+                                                    <Stack flexDir='row' w='100%' alignItems={'center'} justifyContent={'space-between'} >
+                                                        {
+                                                            item.name && item.name.trim() != '' && (
+                                                                <Text fontWeight={'semibold'} fontSize={{ base: '1rem', md: '1.4rem' }} color={colorDarkText} >{item.name}
+                                                                    <UniIcon onClick={() => speakText(item.name)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                                                </Text>
+                                                            )
+                                                        }
+
                                                         <Text textAlign={'justify'} fontSize={'0.7rem'} color={style.color} bgColor={style.bgColor} py={1} px={2} borderRadius={8} border={'1px solid'} borderColor={style.borderColor} >{dataTestTypes && dataTestTypes.length > 0 ? dataTestTypes.find((type) => type.id === item.type_id)?.name : item.type_id}</Text>
                                                     </Stack>
-                                                    <Text color={colorText} fontSize={'0.9rem'} fontWeight={'normal'} textAlign={'justify'}>{item.description}
+                                                    {
+                                                        item.description && item.description.trim() != '' && (
+                                                            <Text color={colorText} fontSize={'0.9rem'} fontWeight={'normal'} textAlign={'justify'}>{item.description}
+                                                                <UniIcon onClick={() => speakText(item.description)} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                                            </Text>
+                                                        )
+                                                    }
 
-                                                        <UniIcon onClick={() => speakText(item.description)} cursor={'pointer'} icon={'UilVolume'} size={4} />
-
-                                                    </Text>
                                                 </Stack>
                                             </Stack>
 
-                                            <Button w={'100%'} variant={"solid"} leftIcon={<UniIcon icon={'UilPlayCircle'} />} onClick={() => navigate(`/studenttest/${item.id}`)} >Comenzar test</Button>
+                                            <Button w={'100%'} mt={2} variant={"solid"} leftIcon={<UniIcon icon={'UilPlayCircle'} />} onClick={() => navigate(`/studenttest/${item.id}`)} >Comenzar test</Button>
                                         </Stack>
 
                                     </Stack>

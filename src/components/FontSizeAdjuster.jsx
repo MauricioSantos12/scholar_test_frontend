@@ -41,7 +41,7 @@ const FontSizeAdjuster = () => {
       <Button
         onClick={decreaseSize}
         variant="gray"
-        size="sm"
+        size="xs"
         isDisabled={sizeIndex === 0}
         aria-label="Decrease font size"
       >
@@ -50,7 +50,7 @@ const FontSizeAdjuster = () => {
       <Button
         onClick={increaseSize}
         variant="gray"
-        size="sm"
+        size="xs"
         isDisabled={sizeIndex === FONT_SIZES.length - 1}
         aria-label="Increase font size"
       >

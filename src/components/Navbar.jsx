@@ -21,8 +21,8 @@ const Navbar = () => {
                     <PopoverTrigger>
                         <Stack flexDir="row" spacing={0} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
                             {
-                                user && user.name && user.last_name && (
-                                    <Text fontSize={'sm'} colorText>{`${user.name} ${user.last_name}`}</Text>
+                                user && user.name && (
+                                    <Text fontSize={'sm'} colorText>{`${user?.name} ${user?.last_name}`}</Text>
                                 )
                             }
                             <UniIcon icon={'UilAngleDown'} size={6} color={colorText} />
@@ -34,7 +34,7 @@ const Navbar = () => {
                             <FontSizeAdjuster />
                             <Stack flexDir={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
                                 <Text fontSize={'xs'}>Modo Oscuro</Text>
-                                <Switch colorScheme="teal" defaultChecked={colorMode === 'dark'} onChange={toggleColorMode} />
+                                <Switch colorScheme="teal" defaultChecked={colorMode === 'ligth'} onChange={toggleColorMode} />
                             </Stack>
                             <Stack flexDir={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'} onClick={logout} cursor={'pointer'} _hover={{ color: 'primary.500' }} transition={'all 0.3s ease-in-out'}>
                                 <Text fontSize={'xs'}>Salir</Text>

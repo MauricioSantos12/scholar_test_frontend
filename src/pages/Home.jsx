@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Input, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Input, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useAuth } from "../context/useAuth";
 import UniIcon from '../utils/UniIcon';
@@ -34,17 +34,23 @@ const Home = () => {
             setError('Email y contraseña son requeridos')
         }
     }
+
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorCardColorMode = useColorModeValue('white', 'secondary.800');
+
     return (
-        <Box minH="100vh" display="flex" flexDirection="column" justifyContent={'center'} alignItems={'center'} bgColor={'#f8fafc'} onKeyDown={(e) => e.key === 'Enter' && handleLogin()}>
-            <Stack h='auto' w={'100%'} py={10} px={6} maxW={{ base: '90%', md: '600px' }} m='0 auto' bgColor='white' borderRadius={8} boxShadow='lg' gap={2} border={'1px solid'} borderColor={'secondary.500'}>
+        <Box minH="100vh" display="flex" flexDirection="column" justifyContent={'center'} alignItems={'center'} bgColor={bgColorColorMode} onKeyDown={(e) => e.key === 'Enter' && handleLogin()}>
+            <Stack h='auto' w={'100%'} py={10} px={6} maxW={{ base: '90%', md: '600px' }} m='0 auto' bgColor={bgColorCardColorMode} borderRadius={8} boxShadow='lg' gap={2} border={'1px solid'} borderColor={'secondary.500'}>
                 <Stack dir='column' justifyContent={'center'} alignItems={'center'}>
                     <Box bgColor={'primary.100'} py={3} px={4} borderRadius={'50%'}>
                         <UniIcon icon={'UilGraduationCap'} size={10} color='primary.500' cursor={'pointer'} />
                     </Box>
                 </Stack>
                 <Stack dir='column' justifyContent={'center'} alignItems={'center'} gap={2}>
-                    <Heading color={'dark_text'} fontWeight={'bold'} fontSize={{ base: 'xl', md: '3xl' }}>EduTest</Heading>
-                    <Text color={'text'} fontSize={{ base: 'md', md: 'xl' }} textAlign={'center'}>Sistema de Gestión de Tests Educativos</Text>
+                    <Heading color={colorDarkText} fontWeight={'bold'} fontSize={{ base: 'xl', md: '3xl' }}>EduTest</Heading>
+                    <Text color={colorText} fontSize={{ base: 'md', md: 'xl' }} textAlign={'center'}>Sistema de Gestión de Tests Educativos</Text>
                 </Stack>
                 <Stack dir='column' justifyContent={'center'} alignItems={'flex-start'} gap={4} w='100%'>
                     <InputText text={`Email`} placeholder={`example@example.com`} type={'email'} value={email} setValue={setEmail} />
