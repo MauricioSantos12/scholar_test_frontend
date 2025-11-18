@@ -1,4 +1,4 @@
-import { Container, Heading, Progress, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { Container, Heading, Progress, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
@@ -163,20 +163,25 @@ const StudentTest = () => {
         return <ViewComponent {...props} />;
     }, [step, completeTest, dataTestTypes, questionStep, areaStep]);
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorColorMode = useColorModeValue('white', 'secondary.800');
+
     if (loadingTests || !completeTest || loadingTestTypes) return <Loading />;
     if (errorTests || errorTestTypes) return <Text color={'red.500'}>Error: {errorTests || errorTestTypes}</Text>;
     if (!typeTest) return <Loading />;
     const areas = completeTest.areas[areaStep];
+
     return (
-        <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' alignItems={'flex-start'} justifyContent={'center'} >
+        <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} mb={step == 'resultView' ? 0 : 14} h="100%" w='100%' alignItems={'flex-start'} justifyContent={'center'} >
             {
                 step == 'questionView' && (
                     <>
-                        <Stack bg='white' w='100%' p={2} gap={1} alignItems={'center'} justifyContent={'center'} >
-                            <Heading as={'h2'} color={'dark_text'} textAlign={'center'} fontSize={{ base: 'lg', md: '2xl' }}>{completeTest?.name}</Heading>
+                        <Stack bg={bgColorColorMode} w='100%' p={2} gap={1} alignItems={'center'} justifyContent={'center'} >
+                            <Heading as={'h2'} color={colorDarkText} textAlign={'center'} fontSize={{ base: 'lg', md: '2xl' }}>{completeTest?.name}</Heading>
                             <Text fontSize={'0.5rem'}>Pregunta {currentQuestion + 1} de {totalQuestions.length}</Text>
                             <Stack flexDir={{ base: 'column', md: 'row' }} gap={2} w='100%' h='auto' justifyContent={'space-between'} alignItems={'center'}>
-                                <Text fontSize={{ base: 'sm', md: 'md' }} textAlign={'center'}>{areas?.name}</Text>
+                                <Text fontSize={'xs'} textAlign={'center'} color={colorText}>{areas?.name}</Text>
                                 {
                                     startTime && (
                                         <Stack gap={2} w='100%' justifyContent={'flex-start'} justifyItems={'flex-start'} h={'auto'}>

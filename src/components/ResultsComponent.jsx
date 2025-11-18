@@ -1,4 +1,4 @@
-import { Button, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
+import { Button, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react'
 import React, { useRef } from 'react'
 import UniIcon from '../utils/UniIcon'
 import { useReactToPrint } from 'react-to-print';
@@ -11,15 +11,18 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
     });
 
     const bgColors = [
-        'red.50',
-        'cyan.50',
-        'orange.50',
-        'green.50',
-        'purple.50',
+        useColorModeValue('red.50', 'red.900'),
+        useColorModeValue('cyan.50', 'cyan.900'),
+        useColorModeValue('orange.50', 'orange.900'),
+        useColorModeValue('green.50', 'green.900'),
+        useColorModeValue('purple.50', 'purple.900'),
     ]
 
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorColorMode = useColorModeValue('secondary.50', 'secondary.800');
+
     return (
-        <Stack w='100%' gap={2}>
+        <Stack w='100%' gap={2} >
             {
                 showDownloadButton && (
                     <>
@@ -54,19 +57,19 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                 </Stack>
 
                 <Stack w={'100%'} gap={2}>
-                    <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'center'} dangerouslySetInnerHTML={{ __html: `¡Felicidades <b>${user?.name || ''}</b>, has completado el test! 🎉` }} />
-                    <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'}>{`A continuación podrás ver un resumen de tus resultados generales, junto con el desempeño obtenido en cada área y en los diferentes componentes evaluados.`}</Text>
-                    <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'} >{`Estos resultados te permitirán identificar tus fortalezas y reconocer las áreas en las que puedes seguir mejorando.`}</Text>
+                    <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'center'} dangerouslySetInnerHTML={{ __html: `¡Felicidades <b>${user?.name || ''}</b>, has completado el test! 🎉` }} />
+                    <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'}>{`A continuación podrás ver un resumen de tus resultados generales, junto con el desempeño obtenido en cada área y en los diferentes componentes evaluados.`}</Text>
+                    <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} textAlign={'justify'} >{`Estos resultados te permitirán identificar tus fortalezas y reconocer las áreas en las que puedes seguir mejorando.`}</Text>
                 </Stack>
                 <Text w='100%' fontWeight={'bold'} textAlign={'center'} color={'primary.500'} fontSize={{ base: '1.5rem', md: '3rem' }}>{completeResults?.totalScore}%</Text>
                 <Text textAlign={'center'} >{`Preguntas acertadas ${completeResults?.totalCorrect} / ${completeResults?.totalQuestions}`}</Text>
                 <Stack gap={4} w={'100%'}>
                     {
                         completeTest && completeTest.areas && completeTest.areas.length > 0 && completeResults && dataRecommendations && (
-                            <TableContainer w={'100%'}>
+                            <TableContainer w={'100%'} bgColor={bgColorColorMode}>
                                 <Table variant='simple' size={{ base: 'sm', md: 'md' }} border='2px solid #E2E8F0'>
                                     <Thead>
-                                        <Tr bgColor={'#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
+                                        <Tr bgColor={bgColorColorMode} borderBottom={'2px solid #E2E8F0'}>
                                             <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Área</Th>
                                             <Th textAlign={'center'} borderRight={'2px solid #E2E8F0'}>Puntaje</Th>
                                             <Th textAlign={'center'}>Observación</Th>
@@ -125,7 +128,7 @@ const ResultsComponent = ({ completeTest, user, completeResults, dataRecommendat
                                                         <Tr key={component.id} bgColor={randomColor ? randomColor : '#F8FAFC'} borderBottom={'2px solid #E2E8F0'}>
                                                             {
                                                                 i === 0 && (
-                                                                    <Td bgColor={'#F8FAFC'} rowSpan={area.components.length} textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{areaName}</Td>
+                                                                    <Td bgColor={bgColorColorMode} rowSpan={area.components.length} textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{areaName}</Td>
                                                                 )
                                                             }
                                                             <Td textAlign={'center'} borderRight={'2px solid #E2E8F0'}>{componentName}</Td>

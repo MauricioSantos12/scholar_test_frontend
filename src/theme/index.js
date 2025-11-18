@@ -2,7 +2,13 @@ import { extendTheme } from '@chakra-ui/react';
 import '@fontsource-variable/sora';
 import '@fontsource/inter';
 
+const config = {
+  initialColorMode: 'system',
+  useSystemColorMode: false,
+};
+
 const theme = extendTheme({
+  config,
   colors: {
     primary: {
       50: '#eaf4ff',
@@ -110,15 +116,25 @@ const theme = extendTheme({
     },
   },
   styles: {
-    global: {
+    global: (props) => ({
+      'html, :root': {
+        '--base-font-size': '16px',
+        fontSize: 'var(--base-font-size)',
+      },
       body: {
-        bg: 'secondary.100',
-        color: 'text',
+        bg: props.colorMode === 'dark' ? 'secondary.900' : 'secondary.100',
+        color: props.colorMode === 'dark' ? 'secondary.50' : 'text',
       },
       h1: {
         color: 'primary.600',
       },
-    },
+      td: {
+        color: props.colorMode === 'dark' ? 'secondary.100' : 'text',
+      },
+      li: {
+        color: props.colorMode === 'dark' ? 'secondary.100' : 'text',
+      },
+    }),
   },
 });
 

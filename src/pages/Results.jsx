@@ -1,10 +1,12 @@
-import { Button, Heading, Input, Select, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useToast } from '@chakra-ui/react';
+import { Button, Heading, Input, Select, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UseFetch from '../utils/UseFetch';
 import Loading from '../components/Loading';
 import Paginator from '../components/Paginator';
 import UniIcon from '../utils/UniIcon';
 import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Results = () => {
     const { data: dataResults, loading: loadingResults, error: errorResults, fetchData: fetchResults } = UseFetch()
@@ -51,7 +53,6 @@ const Results = () => {
         if (statusFilter) urlParams.append('status', statusFilter);
         if (startDate) urlParams.append('startDate', startDate);
         if (endDate) urlParams.append('endDate', endDate);
-        console.log(startDate, endDate)
         if (startDate && endDate) {
             const startDateObject = new Date(startDate);
             const endDateObject = new Date(endDate);
@@ -94,22 +95,61 @@ const Results = () => {
         }
     ]
 
+    const handleExport = () => {
+        const data = dataResults.data;
+        console.log({ dataTests })
+        console.log({ dataUsers })
+        const parsedData = data.map((result) => {
+            console.log({ result })
+            return {
+                ...result,
+                test_name: dataTests.find((test) => test.id === result.test_id)?.name || '',
+                user_name: dataUsers.find((user) => user.id === result.user_id)?.name || '',
+                user_last_name: dataUsers.find((user) => user.id === result.user_id)?.last_name || '',
+            }
+        });
+        parsedData.forEach((result) => {
+            result.status = result.status === 'completed' ? 'Completado' : result.status === 'incomplete' ? 'Incompleto' : result.status === 'in_progress' ? 'En progreso' : 'Expirado';
+            result.user_name = `${result.user_name} ${result.user_last_name}`.trim();
+            delete result.user_last_name;
+            if (result.test_id) {
+                delete result.test_id;
+
+            }
+            if (result.user_id) {
+                delete result.user_id;
+            }
+        });
+        const ws = XLSX.utils.json_to_sheet(parsedData);
+        const wb = XLSX.utils.book_new();
+        const sheetName = 'Resultados';
+        const fileName = 'Resultados';
+        XLSX.utils.book_append_sheet(wb, ws, sheetName);
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(dataBlob, `${fileName}.xlsx`);
+    };
+
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
 
     if (loadingResults || loadingTests || loadingUsers) return <Loading />;
     if (errorResults || errorTests || errorUsers) return <Text color={'red.500'}>Error: {errorResults || errorTests || errorUsers}</Text>;
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Resultados</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de resultados</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Resultados</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de resultados</Text>
             <Stack w='100%' gap={2}>
-                <Text color={'dark_text'} fontWeight={'bold'} >Filtros</Text>
+                <Text color={colorDarkText} fontWeight={'bold'} >Filtros</Text>
                 <Stack direction={'row'} justifyContent={'flex-strt'} w={'100%'}>
                     {
 
                         <Stack>
                             <Text>Estado</Text>
                             <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                                <option>Selecciona un estado</option>
+                                <option value={null}>Selecciona un estado</option>
                                 {
                                     parsedStatus.map((status) => (
                                         <option key={status.value} value={status.value}>{status.name}</option>
@@ -125,7 +165,7 @@ const Results = () => {
                             <Stack>
                                 <Text>Test</Text>
                                 <Select value={testFilter} onChange={(e) => setTestFilter(e.target.value)}>
-                                    <option>Selecciona un test</option>
+                                    <option value={null}>Selecciona un test</option>
                                     {
                                         dataTests.map((test) => (
                                             <option key={test.name} value={test.id}>{test.name}</option>
@@ -141,7 +181,7 @@ const Results = () => {
                             <Stack>
                                 <Text>Usuario</Text>
                                 <Select value={userFilter} onChange={(e) => setUserFilter(e.target.value)}>
-                                    <option>Selecciona un usuario</option>
+                                    <option value={null}>Selecciona un usuario</option>
                                     {
                                         dataUsers.map((user) => (
                                             <option key={user.name} value={user.id}>{user.name}</option>
@@ -162,7 +202,10 @@ const Results = () => {
                     </Stack>
 
                 </Stack>
-                <Button size='sm' disabled={!doFilter} variant={'solid'} w='fit-content' onClick={() => fetchResultsFn()} >Filtrar</Button>
+                <Stack flexDir={'row'} gap={2} w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+                    <Button size='sm' disabled={!doFilter} variant={'gray'} w='fit-content' onClick={() => fetchResultsFn()} >Filtrar</Button>
+                    <Button size='sm' variant={'gray'} w='fit-content' onClick={() => handleExport()} >Exportar</Button>
+                </Stack>
             </Stack>
 
             {
@@ -194,7 +237,7 @@ const Results = () => {
                                         const user = dataUsers && dataUsers.length > 0 && dataUsers.find((user) => user.id === data.user_id);
                                         const status = parsedStatus.find((status) => status.value === data.status);
                                         return (
-                                            <Tr key={data.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                            <Tr key={data.id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                                 <Td textAlign={'center'}>{test && test.name}</Td>
                                                 <Td textAlign={'center'}>{user && `${user.name} ${user?.lastName || ''}`}</Td>
                                                 <Td textAlign={'center'}>{data.score}</Td>

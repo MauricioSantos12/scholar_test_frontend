@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UseFetch from '../utils/UseFetch';
 import Loading from '../components/Loading.jsx';
@@ -143,27 +143,32 @@ const Tests = () => {
 
   const orderedData = data && data.length > 0 ? data.sort((a, b) => a.position - b.position) : data;
 
+  const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+  const colorText = useColorModeValue('text', 'secondary.200');
+  const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+  const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
+
 
   if (loadingTests || loadingTypeTests) return <Loading />
   if (errorTests || errorTypeTests) return <Text color={'red.500'}>Error: {errorTests || errorTypeTests}</Text>
 
   return (
     <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-      <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Tets Existentes</Heading>
-      <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Gestiona todos los tests creados</Text>
+      <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Tets Existentes</Heading>
+      <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Gestiona todos los tests creados</Text>
       <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
         <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nuevo test</Button>
       </Stack>
       {
         (!orderedData || orderedData.length === 0) && (
-          <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tests</Text>
+          <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tests</Text>
         )
       }
       {
         orderedData && orderedData.length > 0 && (
           <TableContainer w={'100%'}>
-            <Table variant='simple' size={'lg'}>
-              <Thead>
+            <Table variant='simple' size={'lg'} color={colorDarkText}>
+              <Thead color={colorDarkText}>
                 <Tr>
                   <Th textAlign={'center'}>Nombre</Th>
                   <Th textAlign={'center'}>Descripcion</Th>
@@ -172,10 +177,10 @@ const Tests = () => {
 
                 </Tr>
               </Thead>
-              <Tbody>
+              <Tbody color={colorDarkText}>
                 {data.map((dt, i) => {
                   return (
-                    <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                    <Tr key={data.id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                       <Td textAlign={'center'}>{dt.name}</Td>
                       <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.description && dt.description.length > 150 ? dt.description.substring(0, 200) + '...' : dt.description }} />
                       <Td textAlign={'center'}>{dataTypeTests && dataTypeTests.length > 0 && dataTypeTests.find(d => d.id === dt.type_id).name}</Td>

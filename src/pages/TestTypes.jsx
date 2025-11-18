@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UniIcon from '../utils/UniIcon.jsx';
 import UseFetch from '../utils/UseFetch.js';
@@ -14,6 +14,10 @@ const TestTypes = () => {
     const [registerSelected, setRegisterSelected] = useState(null);
     const [refreshData, setRefreshData] = useState(false);
     const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
 
     useEffect(() => {
         fetchData({
@@ -67,19 +71,19 @@ const TestTypes = () => {
 
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Tipos</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos los tipos de test del sistema</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Tipos</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos los tipos de test del sistema</Text>
             <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
             </Stack>
             {
                 (!data || data.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tipos</Text>
+                    <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado tipos</Text>
                 )
             }
             {
                 data && data.length > 0 && (
                     <TableContainer w={'100%'}>
-                        <Table variant='simple' size={'lg'}>
+                        <Table variant='simple' size={'lg'} color={colorDarkText}>
                             <Thead>
                                 <Tr>
                                     <Th textAlign={'center'}>Nombre</Th>
@@ -88,9 +92,9 @@ const TestTypes = () => {
 
                                 </Tr>
                             </Thead>
-                            <Tbody>
+                            <Tbody color={colorDarkText}>
                                 {data.map((data, i) => (
-                                    <Tr key={data._id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                    <Tr key={data.id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                         <Td textAlign={'center'}>{data.name}</Td>
                                         <Td textAlign={'center'}>{data.description}</Td>
                                         <Td textAlign={'center'}>

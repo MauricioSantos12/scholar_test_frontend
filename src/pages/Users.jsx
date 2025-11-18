@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UniIcon from '../utils/UniIcon.jsx';
 import UseFetch from '../utils/UseFetch';
@@ -130,26 +130,31 @@ const Users = () => {
         }
     }
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
+
     if (loadingUsers) return <Loading />;
     if (errorUsers) return <Text color={'red.500'}>Error: {errorUsers}</Text>;
 
 
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Usuarios</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos los usuarios del sistema</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Usuarios</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos los usuarios del sistema</Text>
             <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nuevo usuario</Button>
             </Stack>
             {
                 (!dataUsers || dataUsers.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado usuarios</Text>
+                    <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado usuarios</Text>
                 )
             }
             {
                 dataUsers && dataUsers.length > 0 && (
-                    <TableContainer w={'100%'}>
-                        <Table variant='simple' size={'lg'}>
+                    <TableContainer w={'100%'} color={colorText}>
+                        <Table variant='simple' size={'lg'} color={colorText}>
                             <Thead>
                                 <Tr>
                                     <Th textAlign={'center'}>Identificacion</Th>
@@ -163,9 +168,9 @@ const Users = () => {
 
                                 </Tr>
                             </Thead>
-                            <Tbody>
+                            <Tbody color={colorText}>
                                 {dataUsers.map((data, i) => (
-                                    <Tr key={data._id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                    <Tr key={data._id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                         <Td textAlign={'center'}>{data.identification_number}</Td>
                                         <Td textAlign={'center'}>{data.name}</Td>
                                         <Td textAlign={'center'}>{data.last_name}</Td>

@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Button, Container, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
@@ -62,11 +62,13 @@ const ResultView = ({ completeTest, setStep, setQuestionStep, setAreaStep, setCo
     documentTitle: `Resultados de ${completeTest.name} - ${user.name} ${user.last_name}`,
   });
 
+  const bgColorColorMode = useColorModeValue('white', 'secondary.800');
+
   if (errorTests || errorRecommendations) return <Text color={'red.500'}>Error: {errorTests || errorRecommendations}</Text>;
   if (loadingTests || loadingRecommendations || !completeTest) return <Loading />
   return (
-    <Container maxW={{ base: '90%', md: '800px' }} margin={'0 auto'} w='100%' h='auto' p={4} gap={1} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'} bg='white' boxShadow={'lg'} borderRadius={8} m={8}>
-      <Stack w='100%' gap={1}>
+    <Container maxW={{ base: '90%', md: '800px' }} margin={'0 auto'} w='100%' h='auto' p={4} gap={1} display={'flex'} flexDir={'column'} justifyContent={'center'} alignItems={'center'} bgColor={bgColorColorMode} boxShadow={'xl'} borderRadius={8} m={8} mb={20}>
+      <Stack w='100%' gap={1} >
         <Stack w={'100%'} gap={2} flexDir='row' justifyContent={{ base: 'flex-start', md: 'flex-end' }}>
           <Button
             onClick={handlePrint}

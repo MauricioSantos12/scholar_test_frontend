@@ -1,12 +1,14 @@
-import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, Text } from '@chakra-ui/react'
+import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { Editor } from '@tinymce/tinymce-react';
 import React from 'react'
 
 
 const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const bgColor = useColorModeValue('secondary.100', 'secondary.900');
     return (
         <Stack dir='column' justifyContent={'center'} alignItems={'flex-start'} gap={2} w='100%'>
-            <Text color={'dark_text'} fontWeight={'bold'} fontSize={'lg'}>{text}</Text>
+            <Text color={colorDarkText} fontWeight={'bold'} fontSize={'lg'}>{text}</Text>
             {
                 type === 'number' && (
                     <NumberInput
@@ -31,7 +33,7 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
                         value={value}
                         variant='outline'
                         placeholder={placeholder || ''}
-                        bgColor={'#F8FAFC'}
+                        bgColor={bgColor}
                         p={{ base: 2, md: 4 }}
                         fontSize={'md'}
                         minH={12}

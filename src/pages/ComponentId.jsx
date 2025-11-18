@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from '../components/Loading';
@@ -163,6 +163,11 @@ const ComponentId = () => {
 
     const orderedData = data && data.length > 0 ? data.sort((a, b) => a.position - b.position) : data;
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
+
     if (loading || loadingTests || loadingAreas || loadingComponents) return <Loading />
     if (error || errorTests || errorAreas || errorComponents) return <Text color={'red.500'}>Error: {error || errorTests || errorAreas || errorComponents}</Text>
     return (
@@ -177,14 +182,14 @@ const ComponentId = () => {
                 )
             }
 
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Preguntas</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las preguntas creadas</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Preguntas</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las preguntas creadas</Text>
             <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva pregunta</Button>
             </Stack>
             {
                 (!orderedData || orderedData.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado preguntas</Text>
+                    <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado preguntas</Text>
                 )
             }
             {
@@ -203,7 +208,7 @@ const ComponentId = () => {
                             <Tbody>
                                 {orderedData.map((dt, i) => {
                                     return (
-                                        <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                        <Tr key={dt.id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                             <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.first_text && dt.first_text.length > 100 ? `${dt.first_text.substring(0, 100)}...` : dt.first_text }} />
                                             <td style={{ textWrap: 'balance', textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: dt.second_text && dt.second_text.length > 100 ? `${dt.second_text.substring(0, 100)}...` : dt.second_text }} />
                                             <Td textAlign={'center'}>{dt.position}</Td>

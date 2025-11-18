@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from '../components/Loading';
@@ -154,6 +154,10 @@ const TestId = () => {
 
     const orderedData = data && data.length > 0 ? data.sort((a, b) => a.position - b.position) : data;
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
 
     if (loading || loadingTests) return <Loading />
     if (error || errorTests) return <Text color={'red.500'}>Error: {error || errorTests}</Text>
@@ -169,14 +173,14 @@ const TestId = () => {
                 )
             }
 
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Áreas</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las áreas creadas</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Áreas</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todas las áreas creadas</Text>
             <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva área</Button>
             </Stack>
             {
                 (!orderedData || orderedData.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado áreas</Text>
+                    <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado áreas</Text>
                 )
             }
             {
@@ -196,7 +200,7 @@ const TestId = () => {
                             <Tbody>
                                 {data.map((dt, i) => {
                                     return (
-                                        <Tr key={dt.id} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                        <Tr key={dt.id} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                             <Td textAlign={'center'}>{dt.name}</Td>
                                             <Td textAlign={'center'}>{dt.description && dt.description.length > 50 ? dt.description.substring(0, 50) + '...' : dt.description}</Td>
                                             <Td textAlign={'center'}>{dt.weight}</Td>

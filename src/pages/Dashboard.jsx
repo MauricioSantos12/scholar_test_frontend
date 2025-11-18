@@ -11,6 +11,7 @@ const Dashboard = () => {
     const { data: dataQuestions, loading: loadingQuestions, error: errorQuestions, fetchData: fetchQuestions } = UseFetch()
     const { data: dataUsers, loading: loadingUsers, error: errorUsers, fetchData: fetchUsers } = UseFetch()
     const { data: dataResults, loading: loadingResults, error: errorResults, fetchData: fetchResults } = UseFetch()
+
     useEffect(() => {
         fetchTests({
             url: '/tests',
@@ -38,8 +39,10 @@ const Dashboard = () => {
         })
 
     }, [fetchTests, fetchAreas, fetchComponents, fetchQuestions, fetchUsers]);
+
     if (loadingTests || loadingAreas || loadingComponents || loadingQuestions || loadingUsers || loadingResults) return <Loading />;
     if (errorTests || errorAreas || errorComponents || errorQuestions || errorUsers || errorResults) return <Text color={'red.500'}>Error: {errorTests || errorAreas || errorComponents || errorQuestions || errorUsers || errorResults}</Text>;
+
     const dataCards = [
         {
             title: 'Tests Creados',

@@ -1,4 +1,4 @@
-import { Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import UniIcon from '../utils/UniIcon';
 import { useNavigate } from 'react-router-dom';
@@ -67,9 +67,12 @@ const DashboardLayout = ({ children }) => {
         }
     ]
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const bgColor = useColorModeValue('white', 'secondary.900');
+
+
     return (
         <Stack direction={'row'} flexWrap={'wrap'} gap={0} p={0} m={0} h="auto" w='100%' >
-            <Stack h="100%" w={{ base: '50px', md: '250px' }} borderColor='#dee6ed' bgColor='white' overflow={'hidden'} pt={5} px={2} >
+            <Stack h="100%" w={{ base: '50px', md: '250px' }} borderColor='#dee6ed' bgColor={bgColor} overflow={'hidden'} pt={5} px={2} >
                 {
                     items.map((item, index) => (
                         <>
@@ -111,7 +114,7 @@ const DashboardLayout = ({ children }) => {
             </Stack>
             <Stack h="100%" w={{ base: 'calc(100% - 50px)', md: 'calc(100% - 250px)' }} p={4}>
                 <Container maxW={'container.xl'} w='100%' h='100%'>
-                    <Stack borderRadius={16} bgColor={'white'} p={8} boxShadow={'xl'} h={'auto'}>
+                    <Stack borderRadius={16} bgColor={bgColor} p={8} boxShadow={'xl'} h={'auto'}>
                         {children}
                     </Stack>
 

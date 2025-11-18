@@ -14,7 +14,6 @@ import {
 import { Stack, Heading, Text, Divider, Box } from "@chakra-ui/react";
 
 const Metrics = () => {
-    // Datos quemados (ejemplo)
     const testData = [
         { name: "Tests", creados: 12, realizados: 8 },
     ];
@@ -54,7 +53,6 @@ const Metrics = () => {
                 📊 Panel de Métricas del Test
             </Heading>
 
-            {/* Tests creados vs realizados */}
             <Box h="300px">
                 <Text fontWeight="bold" mb={2}>Tests creados y realizados</Text>
                 <ResponsiveContainer>
@@ -72,7 +70,6 @@ const Metrics = () => {
 
             <Divider />
 
-            {/* Áreas y componentes */}
             <Box h="300px">
                 <Text fontWeight="bold" mb={2}>Cantidad de áreas y componentes</Text>
                 <ResponsiveContainer>
@@ -98,7 +95,6 @@ const Metrics = () => {
 
             <Divider />
 
-            {/* Preguntas por componente */}
             <Box h="300px">
                 <Text fontWeight="bold" mb={2}>Preguntas por componente</Text>
                 <ResponsiveContainer>
@@ -114,7 +110,6 @@ const Metrics = () => {
 
             <Divider />
 
-            {/* Resultados por área */}
             <Box h="300px">
                 <Text fontWeight="bold" mb={2}>Resultados por área</Text>
                 <ResponsiveContainer>
@@ -128,7 +123,6 @@ const Metrics = () => {
                 </ResponsiveContainer>
             </Box>
 
-            {/* Resultados por componente */}
             <Box h="300px">
                 <Text fontWeight="bold" mb={2}>Resultados por componente</Text>
                 <ResponsiveContainer>

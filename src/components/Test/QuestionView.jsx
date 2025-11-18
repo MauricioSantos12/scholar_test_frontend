@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Grid, GridItem, Heading, Image, Progress, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, Container, Divider, Grid, GridItem, Heading, Image, Progress, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import UniIcon from '../../utils/UniIcon.jsx'
 import VideoModal from '../Modal/VideoModal.jsx';
@@ -44,14 +44,25 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
         questionStep == areas.questionsByArea.length - 1 ? 'Finalizar área ' :
             'Siguiente';
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorColorMode = useColorModeValue('white', 'secondary.800');
+    const bgColorAnswersColorMode = useColorModeValue('gray.100', 'secondary.900');
+    const bgColorSelectedAnswerColorMode = useColorModeValue('primary.50', 'secondary.900');
+    const bgColorUnselectedAnswerColorMode = useColorModeValue('white', 'secondary.800');
+    const colorTextSelectedAnswerColorMode = useColorModeValue('text', 'secondary.100');
+    const colorTextUnselectedAnswerColorMode = useColorModeValue('text', 'secondary.200');
+    const borderColorSelectedAnswerColorMode = useColorModeValue('primary.600', 'secondary.600');
+    const borderColorUnselectedAnswerColorMode = useColorModeValue('white', 'secondary.600');
+
     return (
         <Stack w='100%' gap={0} h='100%' justifyContent={'flex-start'} alignItems={'center'}>
             <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={0} h='100%'>
-                <GridItem bgColor={'white'} overflowY={'auto'} h='auto' >
-                    <Container maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
+                <GridItem bgColor={bgColorColorMode} h='100%' >
+                    <Container overflowY={'auto'} maxH={{ base: 'auto', md: '550px', lg: '650px' }} maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
                         <Stack my={8} w={'100%'} gap={2}>
-                            <Heading color={'dark_text'} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}</Heading>
-                            <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
+                            <Heading color={colorDarkText} textAlign={'left'} fontWeight={'bold'} fontSize={{ base: '1rem', md: '1.5rem' }}>{`Pregunta ${questionStep + 1}`}</Heading>
+                            <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.first_text }} />
                             {
                                 question?.image_url && (
                                     <Image loading='lazy' objectFit={'contain'} src={question?.image_url} alt={`Imagen de la pregunta ${questionStep + 1}`} w={{ base: '100%', md: '70%' }} margin={'0 auto'} h={'auto'} minH={'300px'} minW={'300px'} />
@@ -62,11 +73,11 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                     <RenderVideo videoUrl={question?.video_url} />
                                 )
                             }
-                            <Text color={'text'} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
+                            <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
                         </Stack>
                     </Container>
                 </GridItem>
-                <GridItem overflowY={'auto'} h='auto' >
+                <GridItem bgColor={bgColorAnswersColorMode} overflowY={'auto'} h='auto' >
                     <Container maxW={'container.xl'} margin={'0 auto'} w='100%' h='100%' gap={4} display={'flex'} flexDir={'column'} justifyContent={'flex-start'} alignItems={'center'}>
                         <Stack my={8} w={'100%'} gap={2}>
                             <Stack w={'100%'} gap={2} flexDir={'row'} flexWrap={'wrap'} justify={'space-between'} alignItems={'center'}>
@@ -86,10 +97,11 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                                         fontWeight={selectedAnswer?.id === answer.id ? 'bold' : 'normal'}
                                                         flexDir={'row'}
                                                         border={'1px solid'}
-                                                        borderColor={selectedAnswer?.id === answer.id ? 'primary.600' : 'white'}
+                                                        borderColor={selectedAnswer?.id === answer.id ? borderColorSelectedAnswerColorMode : borderColorUnselectedAnswerColorMode}
                                                         borderRadius={8}
-                                                        bgColor={selectedAnswer?.id === answer.id ? 'primary.50' : 'white'}
+                                                        bgColor={selectedAnswer?.id === answer.id ? bgColorSelectedAnswerColorMode : bgColorUnselectedAnswerColorMode}
                                                         onClick={() => sentAnswer ? null : setSelectedAnswer(answer)}
+                                                        color={selectedAnswer?.id === answer.id ? colorTextSelectedAnswerColorMode : colorTextUnselectedAnswerColorMode}
                                                     >
                                                         <Text m={0} p={0}
                                                             dangerouslySetInnerHTML={{ __html: answer.text }}
@@ -126,7 +138,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                             {
                                 sentAnswer && selectedAnswer?.explanation && (
                                     <Stack mt={4}>
-                                        <Text fontSize={'xl'} fontWeight={'bold'} color={'text'}>Retroalimentación</Text>
+                                        <Text fontSize={'xl'} fontWeight={'bold'} color={colorText}>Retroalimentación</Text>
                                         <Stack
                                             variant={selectedAnswer?.is_correct === 1 ? 'selectedAnswer' : 'outline'}
                                             w='100%'

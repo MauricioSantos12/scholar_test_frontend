@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UniIcon from '../utils/UniIcon.jsx';
 import UseFetch from '../utils/UseFetch';
@@ -117,20 +117,24 @@ const Recommendations = () => {
         }
     }
 
+    const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
+    const colorText = useColorModeValue('text', 'secondary.200');
+    const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
+    const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
+
     if (loading || loadingAreas) return <Loading />;
     if (error || errorAreas) return <Text color={'red.500'}>Error: {error || errorAreas}</Text>;
 
-
     return (
         <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
-            <Heading color={'dark_text'} fontSize={{ base: 'xl', md: '3xl' }}>Observaciones por área</Heading>
-            <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos las observaciones</Text>
+            <Heading color={colorDarkText} fontSize={{ base: 'xl', md: '3xl' }}>Observaciones por área</Heading>
+            <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>Listado de todos las observaciones</Text>
             <Stack flexDir={'row'} justifyContent={{ base: 'flex-start', md: 'flex-end' }} alignItems={'center'} w={'100%'}>
                 <Button variant={"solid"} size="sm" onClick={onOpenCreate} minHeight={10}> Agregar nueva observación</Button>
             </Stack>
             {
                 (!data || data.length === 0) && (
-                    <Text color={'text'} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado observaciones</Text>
+                    <Text color={colorText} fontSize={{ base: '0.8rem', md: '0.9rem' }}>No se han creado observaciones</Text>
                 )
             }
             {
@@ -148,7 +152,7 @@ const Recommendations = () => {
                             </Thead>
                             <Tbody>
                                 {data.map((data, i) => (
-                                    <Tr key={`${data.id}-${i}`} bgColor={i % 2 === 0 ? '#F8FAFC' : 'white'}>
+                                    <Tr key={`${data.id}-${i}`} bgColor={i % 2 === 0 ? bgColorActiveRowColorMode : bgColorRowColorMode}>
                                         <Td textAlign={'center'}>{dataAreas && dataAreas.find((area) => area.id === data.area_id) && dataAreas.find((area) => area.id === data.area_id).name}</Td>
                                         <Td textAlign={'center'}>{data.min_score}</Td>
                                         <Td textAlign={'center'}>{data.max_score}</Td>
