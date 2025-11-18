@@ -146,7 +146,7 @@ const InitialView = ({ completeTest, setStep, fetchTests, user, setTestResult, s
 
                     </Text>
                 </Stack>
-                <Text fontSize={{ base: '1rem', md: '0.9rem' }} fontStyle={'italic'} textAlign={'justify'} color={colorDarkText}>{fourthParagraph}
+                <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} fontStyle={'italic'} textAlign={'justify'}>{fourthParagraph}
                     <UniIcon onClick={() => speakText(fourthParagraph)} cursor={'pointer'} icon={'UilVolume'} size={4} />
 
                 </Text>
