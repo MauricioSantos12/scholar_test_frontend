@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Button, Divider, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UniIcon from '../utils/UniIcon.jsx';
 import UseFetch from '../utils/UseFetch';
@@ -6,6 +6,7 @@ import InputText from '../components/InputText';
 import Loading from '../components/Loading';
 import DeleteModal from '../components/Modal/DeleteModal';
 import ModalComponent from '../components/Modal/ModalComponent.jsx';
+import { useAuth } from '../context/useAuth.js';
 
 const Users = () => {
     const { data: dataUsers, loading: loadingUsers, error: errorUsers, fetchData: fetchUsers } = UseFetch()
@@ -16,12 +17,19 @@ const Users = () => {
     const [password, setPassword] = useState('');
     const [dateBirth, setDateBirth] = useState('');
     const [schoolName, setSchoolName] = useState('');
+    const [parentName, setParentName] = useState('');
+    const [parentEmail, setParentEmail] = useState('');
+    const [parentPhone, setParentPhone] = useState('');
+    const [roleUser, setRoleUser] = useState('');
     const [city, setCity] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [registerSelected, setRegisterSelected] = useState(null);
     const [refreshData, setRefreshData] = useState(false);
     const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure()
     const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
     const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure()
+    const { user } = useAuth();
+    const showToast = useToast();
 
     useEffect(() => {
         fetchUsers({
@@ -40,6 +48,11 @@ const Users = () => {
         setDateBirth('');
         setSchoolName('');
         setCity('');
+        setParentEmail('');
+        setParentName('');
+        setParentPhone('');
+        setRoleUser('');
+        setShowPassword(false);
         setRegisterSelected(null);
         setRefreshData(!refreshData);
     }
@@ -65,13 +78,32 @@ const Users = () => {
                     date_birth: dateBirth,
                     school_name: schoolName,
                     city,
-                    role: 'student'
+                    role: 'student',
+                    parent_name: parentName,
+                    parent_email: parentEmail,
+                    parent_phone: parentPhone
                 }
             });
             handleClose();
             cleanForm();
+            showToast({
+                title: "Edicion Exitosa",
+                description: "El contenido ha sido editado con exito",
+                status: "success",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
         } catch (error) {
             console.error('Error al crear el usuario:', error);
+            showToast({
+                title: "Error",
+                description: "Ha ocurrido un error al crear el usuario",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
         }
     }
 
@@ -83,6 +115,11 @@ const Users = () => {
         setCity(data.city);
         setSchoolName(data.school_name);
         setDateBirth(data.date_birth);
+        setParentName(data.parent_name);
+        setParentEmail(data.parent_email);
+        setParentPhone(data.parent_phone);
+        setRoleUser(data.role);
+        // setPassword(data.password);
         setRegisterSelected(data);
     }
 
@@ -103,13 +140,33 @@ const Users = () => {
                     password,
                     date_birth: dateBirth,
                     school_name: schoolName,
-                    city
+                    city,
+                    role: registerSelected.role,
+                    parent_name: parentName,
+                    parent_email: parentEmail,
+                    parent_phone: parentPhone
                 }
             });
+            showToast({
+                title: "Edicion Exitosa",
+                description: "El contenido ha sido editado con exito",
+                status: "success",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
             handleClose();
             cleanForm();
         } catch (error) {
             console.error('Error al actualizar el usuario:', error);
+            showToast({
+                title: "Error",
+                description: "Ha ocurrido un error al actualizar el usuario",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
         }
     }
 
@@ -125,8 +182,24 @@ const Users = () => {
             });
             handleClose();
             cleanForm();
+            showToast({
+                title: "Eliminacion Exitosa",
+                description: "El contenido ha sido eliminado con exito",
+                status: "success",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
         } catch (error) {
             console.error('Error al eliminar el usuario:', error);
+            showToast({
+                title: "Error",
+                description: "Ha ocurrido un error al eliminar el usuario",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
         }
     }
 
@@ -191,7 +264,7 @@ const Users = () => {
                     </TableContainer>
                 )
             }
-            <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nuevo test'}>
+            <ModalComponent isOpen={isOpenCreate} onClose={handleClose} title={'Crear nuevo usario'}>
                 <Stack w='100%' gap={2}>
                     <Stack>
                         <InputText text={'Nombre'} placeholder={'Nombre'} type={'text'} value={name} setValue={setName} />
@@ -200,7 +273,27 @@ const Users = () => {
                         <InputText text={'Identificacion'} placeholder={'Identificacion'} type={'text'} value={identificationNumber} setValue={setIdentificationNumber} />
                         <InputText text={'Ciudad'} placeholder={'Ciudad'} type={'text'} value={city} setValue={setCity} />
                         <InputText text={'Colegio'} placeholder={'Colegio'} type={'text'} value={schoolName} setValue={setSchoolName} />
-                        <InputText text={'Contraseña'} placeholder={'Contraseña'} type={'password'} value={password} setValue={setPassword} />
+                        <Divider />
+                        {
+                            roleUser === 'student' && (
+                                <>
+                                    <InputText text={'Nombre acudiente'} placeholder={'Pedro'} type={'text'} value={parentName} setValue={setParentName} />
+                                    <InputText text={'Correo acudiente'} placeholder={'8dYQK@example.com'} type={'email'} value={parentEmail} setValue={setParentEmail} />
+                                    <InputText text={'Telefono acudiente'} placeholder={'123456789'} type={'text'} value={parentPhone} setValue={setParentPhone} />
+                                    <Divider />
+                                </>
+                            )
+                        }
+
+                        <InputText
+                            text={'Contraseña'}
+                            placeholder={'Contraseña'}
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            setValue={setPassword}
+                            showPassword={showPassword}
+                            setShowPassword={setShowPassword}
+                        />
                         <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w='100%'>
                             <Button variant={"gray"} size="sm" onClick={handleClose}> Cancelar</Button>
                             <Button variant={"solid"} size="sm" onClick={handleSave}> Crear</Button>
@@ -209,16 +302,37 @@ const Users = () => {
                 </Stack>
             </ModalComponent>
 
-            <ModalComponent isOpen={isOpenUpdate} onClose={handleClose} title={'Actualizar nuevo test'}>
+            <ModalComponent isOpen={isOpenUpdate} onClose={handleClose} title={'Actualizar nuevo usario'}>
                 <Stack w='100%' gap={2}>
                     <Stack>
                         <InputText text={'Nombre'} placeholder={'Nombre'} type={'text'} value={name} setValue={setName} />
                         <InputText text={'Apellido'} placeholder={'Apeliido'} type={'text'} value={lastName} setValue={setLastName} />
-                        <InputText text={'Correo'} placeholder={'Correo'} type={'email'} value={email} setValue={setEmail} disabled={true} />
-                        <InputText text={'Identificacion'} placeholder={'Identificacion'} type={'text'} value={identificationNumber} setValue={setIdentificationNumber} disabled={true} />
+                        <InputText text={'Correo'} placeholder={'Correo'} type={'email'} value={email} setValue={setEmail} disabled={user && user.role === 'admin' ? false : true} />
+                        <InputText text={'Identificacion'} placeholder={'Identificacion'} type={'text'} value={identificationNumber} setValue={setIdentificationNumber} disabled={user && user.role === 'admin' ? false : true} />
                         <InputText text={'Ciudad'} placeholder={'Ciudad'} type={'text'} value={city} setValue={setCity} />
                         <InputText text={'Colegio'} placeholder={'Colegio'} type={'text'} value={schoolName} setValue={setSchoolName} />
-                        <InputText text={'Pasword'} placeholder={'****'} type={'password'} value={password} setValue={setPassword} disabled={true} />
+                        <Divider />
+                        {
+                            roleUser === 'student' && (
+                                <>
+                                    <InputText text={'Nombre acudiente'} placeholder={'Pedro'} type={'text'} value={parentName} setValue={setParentName} />
+                                    <InputText text={'Correo acudiente'} placeholder={'8dYQK@example.com'} type={'email'} value={parentEmail} setValue={setParentEmail} />
+                                    <InputText text={'Telefono acudiente'} placeholder={'123456789'} type={'text'} value={parentPhone} setValue={setParentPhone} />
+                                    <Divider />
+                                </>
+                            )
+                        }
+
+                        <InputText
+                            text={'Pasword'}
+                            placeholder={'****'}
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            setValue={setPassword}
+                            disabled={user && user.role === 'admin' ? false : true}
+                            showPassword={showPassword}
+                            setShowPassword={setShowPassword}
+                        />
 
                         <Stack flexDir={'row'} justifyContent={'flex-end'} alignItems={'center'} w='100%'>
                             <Button variant={"gray"} size="sm" onClick={handleClose}> Cancelar</Button>

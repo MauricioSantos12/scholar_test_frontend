@@ -195,6 +195,17 @@ const AppRoutes = () => {
             />
 
             <Route
+                path="/area/:areaId"
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <AreaId />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
                 path="/test/:testId/area/:areaId/component/:componentId"
                 element={
                     <MainLayout>
@@ -206,7 +217,29 @@ const AppRoutes = () => {
             />
 
             <Route
+                path="/area/:areaId/component/:componentId"
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <ComponentId />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
                 path="/test/:testId/area/:areaId/component/:componentId/question/:questionId"
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <QuestionId />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
+                path="/area/:areaId/component/:componentId/question/:questionId"
                 element={
                     <MainLayout>
                         <DashboardLayout>

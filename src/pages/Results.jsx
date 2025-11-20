@@ -97,10 +97,7 @@ const Results = () => {
 
     const handleExport = () => {
         const data = dataResults.data;
-        console.log({ dataTests })
-        console.log({ dataUsers })
         const parsedData = data.map((result) => {
-            console.log({ result })
             return {
                 ...result,
                 test_name: dataTests.find((test) => test.id === result.test_id)?.name || '',
@@ -128,6 +125,15 @@ const Results = () => {
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
         const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(dataBlob, `${fileName}.xlsx`);
+        setTimeout(() => {
+            showToast({
+                title: "Exportado exitosamente",
+                description: "El archivo se ha descargado correctamente",
+                status: "success",
+                isClosable: true,
+            })
+        }, 1000);
+
     };
 
     const colorDarkText = useColorModeValue('dark_text', 'secondary.100');

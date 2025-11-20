@@ -1,9 +1,10 @@
-import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Button, Input, InputGroup, InputRightElement, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { Editor } from '@tinymce/tinymce-react';
 import React from 'react'
+import UniIcon from '../utils/UniIcon';
 
 
-const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
+const InputText = ({ text, placeholder, value, setValue, type, disabled, setShowPassword, showPassword }) => {
     const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
     const bgColor = useColorModeValue('secondary.100', 'secondary.900');
     return (
@@ -29,16 +30,27 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled }) => {
             }
             {
                 (type === 'text' || type === 'email' || type == 'password') && (
-                    <Input
-                        value={value}
-                        variant='outline'
-                        placeholder={placeholder || ''}
-                        bgColor={bgColor}
-                        p={{ base: 2, md: 4 }}
-                        fontSize={'md'}
-                        minH={12}
-                        type={type || 'text'}
-                        onChange={(e) => setValue(e.target.value)} disabled={disabled} />
+                    <InputGroup size='md'>
+                        <Input
+                            value={value}
+                            variant='outline'
+                            placeholder={placeholder || ''}
+                            bgColor={bgColor}
+                            p={{ base: 2, md: 4 }}
+                            fontSize={'md'}
+                            minH={12}
+                            type={type || 'text'}
+                            onChange={(e) => setValue(e.target.value)} disabled={disabled}
+                        />
+                        {
+                            setShowPassword && (
+                                <InputRightElement width='4.5rem' h={'100%'}>
+                                    <UniIcon size={6} p={0} m={0} cursor='pointer' icon={showPassword ? 'UilEye' : 'UilEyeSlash'} onClick={() => setShowPassword(!showPassword)} />
+                                </InputRightElement>
+                            )
+                        }
+
+                    </InputGroup>
                 )
             }
             {

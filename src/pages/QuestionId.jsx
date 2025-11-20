@@ -179,9 +179,13 @@ const QuestionId = () => {
             {
                 dataTests && dataTests.length > 0 && dataAreas && dataAreas.length > 0 && (
                     <Breadcrumb spacing='4px' fontSize={{ base: 'xs', md: 'md' }} >
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}`)}>{dataTests.find(test => test.id === parseInt(testId))?.name} </BreadcrumbLink> </BreadcrumbItem>
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}/area/${areaId}`)}>{dataAreas.find(area => area.id === parseInt(areaId))?.name} </BreadcrumbLink> </BreadcrumbItem>
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}/area/${areaId}/component/${componentId}`)}>{dataComponents.find(component => component.id === parseInt(componentId))?.name}</BreadcrumbLink></BreadcrumbItem>
+                        {
+                            testId && (
+                                <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}`)}>{dataTests.find(test => test.id === parseInt(testId))?.name} </BreadcrumbLink> </BreadcrumbItem>
+                            )
+                        }
+                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(testId ? `/test/${testId}/area/${areaId}` : `/area/${areaId}`)}>{dataAreas.find(area => area.id === parseInt(areaId))?.name} </BreadcrumbLink> </BreadcrumbItem>
+                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(testId ? `/test/${testId}/area/${areaId}/component/${componentId}` : `/area/${areaId}/component/${componentId}`)}>{dataComponents.find(component => component.id === parseInt(componentId))?.name}</BreadcrumbLink></BreadcrumbItem>
                         <BreadcrumbItem><BreadcrumbLink>{`Pregunta #${questionId}`}</BreadcrumbLink></BreadcrumbItem>
                     </Breadcrumb>
                 )

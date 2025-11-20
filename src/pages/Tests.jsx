@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UseFetch from '../utils/UseFetch';
 import Loading from '../components/Loading.jsx';
@@ -8,25 +8,30 @@ import { useNavigate } from 'react-router-dom';
 import InputText from '../components/InputText.jsx';
 import UniIcon from '../utils/UniIcon.jsx';
 import InputSelect from '../components/InputSelect.jsx';
+import InputMultipleSelect from '../components/InputMultipleSelect.jsx';
 
 const Tests = () => {
 
   const { data, loading: loadingTests, error: errorTests, fetchData } = UseFetch()
   const { data: dataTypeTests, loading: loadingTypeTests, error: errorTypeTests, fetchData: fetchTypeTests } = UseFetch()
+  const { loading: loadingTestAreas, error: errorTestAreas, fetchData: fetchTestAreas } = UseFetch()
+  const { data: dataAreas, loading: loadingAreas, error: errorAreas, fetchData: fetchAreas } = UseFetch()
+
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [typeTest, setTypeTest] = useState('');
   const [maxTimeMinutes, setMaxTimeMinutes] = useState('');
   const [registerSelected, setRegisterSelected] = useState(null);
   const [refreshData, setRefreshData] = useState(false);
+  const [areasSelected, setAreasSelected] = useState([]);
   const navigation = useNavigate();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure()
   const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure()
   const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure()
   const [errorModal, setErroModal] = useState('');
+  const showToast = useToast();
 
   useEffect(() => {
-
     fetchData({
       url: '/tests',
       method: 'GET',
@@ -35,7 +40,11 @@ const Tests = () => {
       url: '/testtypes',
       method: 'GET',
     })
-  }, [fetchData, refreshData])
+    fetchAreas({
+      url: '/areas',
+      method: 'GET',
+    })
+  }, [fetchData, fetchTypeTests, fetchTestAreas, fetchAreas, refreshData])
 
   const cleanForm = () => {
     setName('');
@@ -43,6 +52,7 @@ const Tests = () => {
     setRegisterSelected(null);
     setErroModal('');
     setMaxTimeMinutes('');
+    setAreasSelected([]);
     setRefreshData(!refreshData);
   }
 
@@ -79,14 +89,43 @@ const Tests = () => {
           max_time_minutes: parseInt(maxTimeMinutes),
         }
       });
+      showToast({
+        title: "Creacion Exitosa",
+        description: "El contenido ha sido creado con exito",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right"
+      })
       handleClose();
       cleanForm();
     } catch (error) {
       console.error('Error al crear test:', error);
+      showToast({
+        title: "Error",
+        description: "Ha ocurrido un error al crear el test",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right"
+      })
+    }
+  }
+
+  const getAreasByTest = async (testId) => {
+    try {
+      const areas = await fetchTestAreas({
+        url: `/testareas/tests/${testId}`,
+        method: 'GET',
+      });
+      setAreasSelected(areas);
+    } catch (error) {
+      console.error('Error al obtener areas por test:', error);
     }
   }
 
   const onSelectItem = async (data) => {
+    getAreasByTest(data.id);
     setName(data.name);
     setDescription(data.description);
     setTypeTest(data.type_id);
@@ -100,12 +139,13 @@ const Tests = () => {
   }
 
   const handleUpdate = async () => {
+
     const isValid = validateInputs();
     if (!isValid) {
       return;
     }
     try {
-      await fetchData({
+      const updatedTest = await fetchData({
         url: `/tests/${registerSelected.id}`,
         method: 'PUT',
         body: {
@@ -115,9 +155,37 @@ const Tests = () => {
           max_time_minutes: parseInt(maxTimeMinutes),
         }
       });
+      if (updatedTest) {
+        const parsedAreasSelected = areasSelected.map((area) => ({
+          area_id: area.area_id || area.value,
+        }))
+        await fetchTestAreas({
+          url: `/testareas/tests/${updatedTest.id}/areas`,
+          method: 'PUT',
+          body: {
+            areas: parsedAreasSelected
+          }
+        })
+      }
     } catch (error) {
       console.error('Error al actualizar el test:', error);
+      showToast({
+        title: "Error",
+        description: `Ha ocurrido un error al actualizar el test - ${error}`,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right"
+      })
     } finally {
+      showToast({
+        title: "Edicion Exitosa",
+        description: "El contenido ha sido editado con exito",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right"
+      })
       handleClose();
       cleanForm();
     }
@@ -136,6 +204,14 @@ const Tests = () => {
       });
       handleClose();
       cleanForm();
+      showToast({
+        title: "Eliminacion Exitosa",
+        description: "El contenido ha sido eliminado con exito",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right"
+      })
     } catch (error) {
       console.error('Error al eliminar el test:', error);
     }
@@ -148,9 +224,8 @@ const Tests = () => {
   const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
   const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
 
-
-  if (loadingTests || loadingTypeTests) return <Loading />
-  if (errorTests || errorTypeTests) return <Text color={'red.500'}>Error: {errorTests || errorTypeTests}</Text>
+  if (loadingTests || loadingTypeTests || loadingTestAreas || loadingAreas) return <Loading />
+  if (errorTests || errorTypeTests || errorTestAreas || errorAreas) return <Text color={'red.500'}>Error: {errorTests || errorTypeTests || errorTestAreas || errorAreas}</Text>
 
   return (
     <Stack dir='column' justifyContent={'flex-start'} alignItems={'flex-start'} gap={3} w={'100%'} h='100%'>
@@ -225,6 +300,7 @@ const Tests = () => {
             <InputText text={'Nombre'} placeholder={'Nombre del test'} type={'text'} value={name} setValue={setName} />
             <InputText text={'Descripcion'} placeholder={'Descripcion del test'} type={'text'} value={description} setValue={setDescription} />
             <InputSelect text={'Tipo'} value={typeTest} setValue={setTypeTest} options={dataTypeTests} />
+            <InputMultipleSelect text={'Áreas'} value={areasSelected} setValue={setAreasSelected} options={dataAreas} />
             <InputText text={'Tiempo maximo'} placeholder={'Tiempo maximo'} type={'number'} value={maxTimeMinutes} setValue={setMaxTimeMinutes} />
             {
               errorModal && (

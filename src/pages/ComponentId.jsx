@@ -175,8 +175,12 @@ const ComponentId = () => {
             {
                 dataTests && dataTests.length > 0 && dataAreas && dataAreas.length > 0 && (
                     <Breadcrumb spacing='4px' fontSize={{ base: 'xs', md: 'md' }}  >
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}`)}>{dataTests.find(test => test.id === parseInt(testId))?.name} </BreadcrumbLink> </BreadcrumbItem>
-                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}/area/${areaId}`)}>{dataAreas.find(area => area.id === parseInt(areaId))?.name} </BreadcrumbLink> </BreadcrumbItem>
+                        {
+                            testId && (
+                                <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(`/test/${testId}`)}>{dataTests.find(test => test.id === parseInt(testId))?.name} </BreadcrumbLink> </BreadcrumbItem>
+                            )
+                        }
+                        <BreadcrumbItem><BreadcrumbLink onClick={() => navigation(testId ? `/test/${testId}/area/${areaId}` : `/area/${areaId}`)}>{dataAreas.find(area => area.id === parseInt(areaId))?.name} </BreadcrumbLink> </BreadcrumbItem>
                         <BreadcrumbItem><BreadcrumbLink onClick={() => null}>{dataComponents.find(component => component.id === parseInt(componentId))?.name}</BreadcrumbLink></BreadcrumbItem>
                     </Breadcrumb>
                 )
@@ -214,7 +218,7 @@ const ComponentId = () => {
                                             <Td textAlign={'center'}>{dt.position}</Td>
                                             <Td textAlign={'center'}>
                                                 <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
-                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(`/test/${testId}/area/${areaId}/component/${componentId}/question/${dt.id}`) }}  >Configurar</Button>
+                                                    <Button rightIcon={<UniIcon icon={'UilEye'} size={6} />} size={'sm'} variant='darkGray' minH={8} onClick={() => { navigation(testId ? `/test/${testId}/area/${areaId}/component/${componentId}/question/${dt.id}` : `/area/${areaId}/component/${componentId}/question/${dt.id}`) }}  >Configurar</Button>
                                                     <Button rightIcon={<UniIcon icon={'UilPen'} size={6} />} size={'sm'} variant='green' minH={8} onClick={() => { onSelectItem(dt); onOpenUpdateData() }}> Editar </Button>
                                                     <Button rightIcon={<UniIcon icon={'UilTrash'} size={6} />} size={'sm'} variant='red' minH={8} onClick={() => { onSelectItem(dt); onOpenDeleteData() }}  > Eliminar</Button>
                                                 </Stack>

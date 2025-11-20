@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Popover, PopoverContent, PopoverTrigger, Stack, Switch, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Popover, PopoverContent, PopoverTrigger, Stack, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { useAuth } from "../context/useAuth";
 import UniIcon from "../utils/UniIcon";
 import FontSizeAdjuster from "./FontSizeAdjuster";
@@ -7,7 +7,9 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const { colorMode, toggleColorMode } = useColorMode()
     const bgColor = useColorModeValue('white', 'secondary.900');
+    const bgColorIcon = useColorModeValue('secondary.100', 'secondary.800');
     const colorText = useColorModeValue('text', 'secondary.200');
+
     return (
         <Box bg={bgColor} px={{ base: 3, md: 6 }} py={{ base: 2, md: 4 }} borderBottom={"1px solid #e2e8f0"} >
             <Flex justify="space-between" align="center">
@@ -32,14 +34,23 @@ const Navbar = () => {
                     <PopoverContent w={'fit-content'}>
                         <Stack w={'100%'} p={4} gap={2} alignItems={'center'} justifyContent={'center'}>
                             <FontSizeAdjuster />
-                            <Stack flexDir={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
-                                <Text fontSize={'xs'}>Modo Oscuro</Text>
-                                <Switch colorScheme="teal" defaultChecked={colorMode === 'ligth'} onChange={toggleColorMode} />
+                            <Stack flexDir={'row'} alignItems={'center'} justifyContent={'space-between'} w={'100%'}>
+                                <UniIcon
+                                    icon={colorMode === 'light' ? "UilMoon" : "UilSun"}
+                                    size={10}
+                                    onClick={toggleColorMode}
+                                    cursor={'pointer'}
+                                    backgroundColor={bgColorIcon}
+                                    color={colorText}
+                                    p={2}
+                                    borderRadius={'50%'}
+                                />
+                                <Stack flexDir={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'} onClick={logout} cursor={'pointer'} _hover={{ color: 'primary.500' }} transition={'all 0.3s ease-in-out'}>
+                                    <Text fontSize={'xs'}>Salir</Text>
+                                    <UniIcon icon="UilSignOutAlt" size={4} />
+                                </Stack>
                             </Stack>
-                            <Stack flexDir={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'} onClick={logout} cursor={'pointer'} _hover={{ color: 'primary.500' }} transition={'all 0.3s ease-in-out'}>
-                                <Text fontSize={'xs'}>Salir</Text>
-                                <UniIcon icon="UilSignOutAlt" size={4} />
-                            </Stack>
+
                         </Stack>
 
                     </PopoverContent>

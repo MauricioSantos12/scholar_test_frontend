@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Button, Heading, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import UniIcon from '../utils/UniIcon.jsx';
 import UseFetch from '../utils/UseFetch.js';
@@ -18,6 +18,7 @@ const TestTypes = () => {
     const colorText = useColorModeValue('text', 'secondary.200');
     const bgColorActiveRowColorMode = useColorModeValue('#F8FAFC', 'secondary.700');
     const bgColorRowColorMode = useColorModeValue('white', 'secondary.800');
+    const showToast = useToast();
 
     useEffect(() => {
         fetchData({
@@ -58,6 +59,14 @@ const TestTypes = () => {
                     description
                 }
             });
+            showToast({
+                title: "Edicion Exitosa",
+                description: "El contenido ha sido editado con exito",
+                status: "success",
+                duration: 4000,
+                isClosable: true,
+                position: "bottom-right"
+            })
             handleClose();
             cleanForm();
         } catch (error) {
@@ -100,7 +109,6 @@ const TestTypes = () => {
                                         <Td textAlign={'center'}>
                                             <Stack flexDir={'row'} justifyContent={'center'} alignItems={'center'}>
                                                 <UniIcon icon={'UilEdit'} size={4} onClick={() => { onSelectItem(data); onOpenUpdateData() }} cursor={'pointer'} _hover={{ color: 'primary.500', transition: 'all 0.2s ease-in-out' }} />
-                                                {/* <UniIcon icon={'UilTrash'} size={4} onClick={() => { onSelectItem(data); onOpenDeleteData() }} cursor={'pointer'} _hover={{ color: 'red.500', transition: 'all 0.2s ease-in-out' }} /> */}
                                             </Stack>
                                         </Td>
                                     </Tr>
