@@ -4,9 +4,10 @@ import React from 'react'
 import UniIcon from '../utils/UniIcon';
 
 
-const InputText = ({ text, placeholder, value, setValue, type, disabled, setShowPassword, showPassword }) => {
+const InputText = ({ text, placeholder, value, setValue, type, disabled, setShowPassword, showPassword, props }) => {
     const colorDarkText = useColorModeValue('dark_text', 'secondary.100');
     const bgColor = useColorModeValue('secondary.100', 'secondary.900');
+    console.log({ value })
     return (
         <Stack dir='column' justifyContent={'center'} alignItems={'flex-start'} gap={2} w='100%'>
             <Text color={colorDarkText} fontWeight={'bold'} fontSize={'lg'}>{text}</Text>
@@ -19,6 +20,7 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled, setShow
                         placeholder={placeholder || ''}
                         size={'md'}
                         min={0}
+                        {...props}
                         onChange={(e) => setValue(e)}>
                         <NumberInputField />
                         <NumberInputStepper>
@@ -41,6 +43,7 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled, setShow
                             minH={12}
                             type={type || 'text'}
                             onChange={(e) => setValue(e.target.value)} disabled={disabled}
+                            {...props}
                         />
                         {
                             setShowPassword && (
@@ -84,6 +87,18 @@ const InputText = ({ text, placeholder, value, setValue, type, disabled, setShow
                         value={value}
 
                     />
+                )
+            }
+
+            {
+                type === 'date' && (
+                    <Input size='md' type='datetime-local' variant='outline'
+                        placeholder={placeholder || ''}
+                        bgColor={bgColor}
+                        p={{ base: 2, md: 4 }}
+                        fontSize={'md'}
+                        value={value}
+                        minH={12} onChange={(e) => setValue(e)} disabled={disabled} />
                 )
             }
         </Stack >

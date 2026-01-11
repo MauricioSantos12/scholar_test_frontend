@@ -20,6 +20,11 @@ const DashboardLayout = ({ children }) => {
             component: 'testTypes'
         },
         {
+            name: 'Grupos',
+            icon: 'UilUsersAlt',
+            component: 'groups'
+        },
+        {
             name: 'Tests',
             icon: 'UilClipboardAlt',
             component: 'tests'
@@ -34,11 +39,6 @@ const DashboardLayout = ({ children }) => {
             icon: 'UilGold',
             component: 'components'
         },
-        // {
-        //     name: 'Preguntas',
-        //     icon: 'UilQuestionCircle',
-        //     component: 'questions'
-        // },
         {
             name: 'Users',
             icon: 'UilUsersAlt',

@@ -20,6 +20,8 @@ import Metrics from "../pages/Metrics";
 import TestTypes from "../pages/TestTypes";
 import Results from "../pages/Results";
 import SpecificResult from "../pages/SpecificResult";
+import Groups from "../pages/Groups";
+import GroupId from "../pages/GroupId";
 
 const AppRoutes = () => {
     return (
@@ -59,6 +61,28 @@ const AppRoutes = () => {
                     <MainLayout>
                         <DashboardLayout>
                             <Tests />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
+                path="/groups"
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <Groups />
+                        </DashboardLayout>
+                    </MainLayout>
+                }
+            />
+
+            <Route
+                path='/group/:id'
+                element={
+                    <MainLayout>
+                        <DashboardLayout>
+                            <GroupId />
                         </DashboardLayout>
                     </MainLayout>
                 }
