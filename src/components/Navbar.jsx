@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
         <Box bg={bgColor} px={{ base: 3, md: 6 }} py={{ base: 2, md: 4 }} borderBottom={"1px solid #e2e8f0"} >
             <Flex justify="space-between" align="center">
-                <Stack flexDir="row" spacing={{ base: 1, md: 2 }} alignItems={'center'} justifyContent={'center'}>
+                <Stack flexDir="row" spacing={{ base: 1, md: 2 }} alignItems={'center'} justifyContent={'center'} onClick={() => window.location.href = '/'}>
                     <Box bgColor={bgColor} py={{ base: 1, md: 2 }} px={{ base: 2, md: 3 }} borderRadius={'50%'}>
                         <UniIcon icon={'UilGraduationCap'} size={{ base: 6, md: 8 }} color='primary.500' cursor={'pointer'} />
                     </Box>

@@ -57,7 +57,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
     const colorTextUnselectedAnswerColorMode = useColorModeValue('text', 'secondary.200');
     const borderColorSelectedAnswerColorMode = useColorModeValue('primary.600', 'secondary.600');
     const borderColorUnselectedAnswerColorMode = useColorModeValue('white', 'secondary.600');
-
+    console.log({ question })
     return (
         <Stack w='100%' gap={0} h='100%' justifyContent={'flex-start'} alignItems={'center'}>
             <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={0} h='100%' w='100%'>
@@ -87,11 +87,13 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                                 )
                             }
                             {
-                                question.second_text && question.second_text.trim() != '' && (
-                                    <Stack flexDir={'row'} flexWrap={'wrap'} justify={'flex-start'} alignItems={'center'}>
-                                        <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
-                                        <UniIcon onClick={() => speakText(stripHtmlTags(question?.second_text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
-                                    </Stack>
+                                question && question.second_text && (
+                                    question.second_text.trim() != '' && (
+                                        <Stack flexDir={'row'} flexWrap={'wrap'} justify={'flex-start'} alignItems={'center'}>
+                                            <Text color={colorText} fontSize={{ base: '1rem', md: '0.9rem' }} py={2} dangerouslySetInnerHTML={{ __html: question?.second_text }} />
+                                            <UniIcon onClick={() => speakText(stripHtmlTags(question?.second_text))} cursor={'pointer'} icon={'UilVolume'} size={4} />
+                                        </Stack>
+                                    )
                                 )
                             }
 
@@ -106,7 +108,7 @@ const QuestionView = ({ completeTest, setStep, areaStep, questionStep, setQuesti
                         <Stack my={8} w={'100%'} gap={2}>
                             <Stack w={'100%'} gap={2} flexDir={'row'} flexWrap={'wrap'} justify={'space-between'} alignItems={'center'}>
                                 {
-                                    question.answers && question.answers.length > 0 && (
+                                    question && question.answers && question.answers.length > 0 && (
                                         question.answers
                                             .map((answer) => {
                                                 const videoUrl = answer.video_url;
